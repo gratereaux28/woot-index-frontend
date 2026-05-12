@@ -7,14 +7,15 @@ import classes from './UserButton.module.css';
  */
 type UserButtonProps = {
   totalProducts: number;
+  onResetFilters: () => void;
 };
 
 /**
  * Displays the application identity and the current product count.
  */
-export function UserButton({ totalProducts }: UserButtonProps) {
+export function UserButton({ totalProducts, onResetFilters }: UserButtonProps) {
   return (
-    <UnstyledButton className={classes.user}>
+    <UnstyledButton className={classes.user} onClick={onResetFilters}>
       <Group>
         <Avatar color="blue" radius="xl">
           WF

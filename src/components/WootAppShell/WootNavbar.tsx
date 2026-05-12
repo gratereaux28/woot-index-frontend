@@ -54,6 +54,13 @@ export function WootNavbar({
 }: WootNavbarProps) {
   const [openedCategories, setOpenedCategories] = useState<Record<string, boolean>>({});
 
+  const handleResetFilters = () => {
+    onSearchChange('');
+    onCategoryChange(null);
+    onShowSoldOutChange(false);
+    setOpenedCategories({});
+  };
+
   const categoryLinks = categories.map((category, index) => {
     const hasActiveSubcategory = category.subcategories?.some(
       subcategory => subcategory.fullSlug === activeCategory,
@@ -133,7 +140,7 @@ export function WootNavbar({
   return (
     <nav className={classes.navbar}>
       <div className={classes.section}>
-        <UserButton totalProducts={totalProducts} />
+        <UserButton totalProducts={totalProducts} onResetFilters={handleResetFilters} />
       </div>
 
       <TextInput
