@@ -8,17 +8,36 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import type { WootProduct } from '@shared/woot';
 import faviconUrl from './assets/favicon.ico';
+import { AboutPage } from './components/InfoPages/AboutPage';
+import { PrivacyPage } from './components/InfoPages/PrivacyPage';
 import { ProductGrid } from './components/ProductGrid';
 import { ProductModal } from './components/ProductModal/ProductModal';
 import { WootAppShell } from './components/WootAppShell/WootAppShell';
 import { FloatingScrollTop } from './components/FloatingScrollTop';
 import { useWootCatalog } from './hooks/useWootCatalog';
 
+type AppPage = 'catalog' | 'about' | 'privacy';
+
+function pageFromPathname(pathname: string): AppPage {
+  if (pathname === '/about') {
+    return 'about';
+  }
+
+  if (pathname === '/privacy') {
+    return 'privacy';
+  }
+
+  return 'catalog';
+}
+
 /**
  * Connects catalog state with the shell, grid, modal and utility widgets.
  */
 function AppContent() {
   const [selectedProduct, setSelectedProduct] = useState<WootProduct | null>(null);
+  const [activePage, setActivePage] = useState<AppPage>(() =>
+    pageFromPathname(typeof window === 'undefined' ? '/' : window.location.pathname),
+  );
   const catalog = useWootCatalog();
 
   useEffect(() => {
@@ -36,9 +55,42 @@ function AppContent() {
     }
   }, []);
 
-  const activeTitle =
-    catalog.activeCategory ??
-    (catalog.search.trim() ? `Search: ${catalog.search.trim()}` : 'All');
+  useEffect(() => {
+    const handlePopState = () => {
+      setActivePage(pageFromPathname(window.location.pathname));
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigate = (path: '/' | '/about' | '/privacy') => {
+    const nextPage = pageFromPathname(path);
+
+    if (window.location.pathname !== path) {
+      window.history.pushState({}, '', path);
+    }
+
+    setActivePage(nextPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSearchChange = (value: string) => {
+    catalog.setSearch(value);
+
+    if (activePage !== 'catalog') {
+      navigate('/');
+    }
+  };
+
+  const handleCategoryChange = (value: string | null) => {
+    catalog.setActiveCategory(value);
+
+    if (activePage !== 'catalog') {
+      navigate('/');
+    }
+  };
 
   return (
     <>
@@ -47,11 +99,14 @@ function AppContent() {
         search={catalog.search}
         showSoldOut={catalog.showSoldOut}
         activeCategory={catalog.activeCategory}
+        activePage={activePage}
         totalProducts={catalog.products.meta.total}
-        onSearchChange={catalog.setSearch}
-        onCategoryChange={catalog.setActiveCategory}
+        onNavigate={navigate}
+        onSearchChange={handleSearchChange}
+        onCategoryChange={handleCategoryChange}
         onShowSoldOutChange={catalog.setShowSoldOut}
       >
+        {activePage === 'catalog' ? (
           <ProductGrid
             products={catalog.products.data}
             loading={catalog.loadingProducts}
@@ -60,6 +115,10 @@ function AppContent() {
             onLoadMore={catalog.loadNextPage}
             onSelect={setSelectedProduct}
           />
+        ) : null}
+
+        {activePage === 'about' ? <AboutPage /> : null}
+        {activePage === 'privacy' ? <PrivacyPage /> : null}
       </WootAppShell>
 
       <ProductModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />

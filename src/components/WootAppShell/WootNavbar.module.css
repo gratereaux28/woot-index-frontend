@@ -58,6 +58,12 @@
   color: light-dark(var(--mantine-color-orange-6), #5eead4);
 }
 
+.secondaryLinks {
+  margin-top: var(--mantine-spacing-xs);
+  padding-top: var(--mantine-spacing-xs);
+  border-top: 1px solid light-dark(var(--mantine-color-gray-3), rgba(148, 163, 184, 0.14));
+}
+
 .mainLinkBadge {
   padding: 0;
   min-width: 20px;

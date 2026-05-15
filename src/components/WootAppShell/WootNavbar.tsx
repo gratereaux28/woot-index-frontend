@@ -13,8 +13,10 @@ import {
 import {
   IconChevronRight,
   IconGridDots,
+  IconInfoCircle,
   IconPlus,
   IconSearch,
+  IconShieldLock,
   IconShoppingBag,
 } from '@tabler/icons-react';
 import { useState } from 'react';
@@ -32,8 +34,10 @@ type WootNavbarProps = {
   categories: WootCategory[];
   search: string;
   activeCategory: string | null;
+  activePage: 'catalog' | 'about' | 'privacy';
   totalProducts: number;
   showSoldOut: boolean;
+  onNavigate: (path: '/' | '/about' | '/privacy') => void;
   onShowSoldOutChange: (value: boolean) => void;
   onSearchChange: (value: string) => void;
   onCategoryChange: (value: string | null) => void;
@@ -46,8 +50,10 @@ export function WootNavbar({
   categories,
   search,
   activeCategory,
+  activePage,
   totalProducts,
   showSoldOut,
+  onNavigate,
   onSearchChange,
   onCategoryChange,
   onShowSoldOutChange,
@@ -58,6 +64,7 @@ export function WootNavbar({
     onSearchChange('');
     onCategoryChange(null);
     onShowSoldOutChange(false);
+    onNavigate('/');
     setOpenedCategories({});
   };
 
@@ -79,6 +86,8 @@ export function WootNavbar({
           className={classes.collectionLink}
           data-active={activeCategory === category.slug || hasActiveSubcategory}
           onClick={() => {
+            onNavigate('/');
+
             if (isExpanded) {
               closeCategory();
               return;
@@ -107,6 +116,7 @@ export function WootNavbar({
                   return;
                 }
 
+                onNavigate('/');
                 setOpenedCategories(current => ({ ...current, [category.slug]: true }));
               }}
             >
@@ -123,9 +133,10 @@ export function WootNavbar({
                   key={subcategory.id}
                   className={classes.subcollectionLink}
                   data-active={activeCategory === subcategory.fullSlug}
-                  onClick={() =>
-                    onCategoryChange(activeCategory === subcategory.fullSlug ? null : subcategory.fullSlug)
-                  }
+                  onClick={() => {
+                    onNavigate('/');
+                    onCategoryChange(activeCategory === subcategory.fullSlug ? null : subcategory.fullSlug);
+                  }}
                 >
                   {subcategory.name}
                 </UnstyledButton>
@@ -147,7 +158,10 @@ export function WootNavbar({
         placeholder="Search"
         size="xs"
         value={search}
-        onChange={event => onSearchChange(event.currentTarget.value)}
+        onChange={event => {
+          onNavigate('/');
+          onSearchChange(event.currentTarget.value);
+        }}
         leftSection={<IconSearch size={12} stroke={1.5} />}
         styles={{ section: { pointerEvents: 'none' } }}
         mb="sm"
@@ -167,8 +181,11 @@ export function WootNavbar({
         <div className={classes.mainLinks}>
           <UnstyledButton
             className={classes.mainLink}
-            data-active={activeCategory === null}
-            onClick={() => onCategoryChange(null)}
+            data-active={activePage === 'catalog' && activeCategory === null}
+            onClick={() => {
+              onNavigate('/');
+              onCategoryChange(null);
+            }}
           >
             <div className={classes.mainLinkInner}>
               <IconShoppingBag size={20} className={classes.mainLinkIcon} stroke={1.5} />
@@ -178,17 +195,44 @@ export function WootNavbar({
               {totalProducts > 99 ? '99+' : totalProducts}
             </Badge>
           </UnstyledButton>
-                      
+
           <UnstyledButton
             className={classes.mainLink}
-            data-active={Boolean(activeCategory)}
-            onClick={() => onCategoryChange(activeCategory)}
+            data-active={activePage === 'catalog' && Boolean(activeCategory)}
+            onClick={() => {
+              onNavigate('/');
+              onCategoryChange(activeCategory);
+            }}
           >
             <div className={classes.mainLinkInner}>
               <IconGridDots size={20} className={classes.mainLinkIcon} stroke={1.5} />
               <span>Categories</span>
             </div>
           </UnstyledButton>
+
+          <div className={classes.secondaryLinks}>
+            <UnstyledButton
+              className={classes.mainLink}
+              data-active={activePage === 'about'}
+              onClick={() => onNavigate('/about')}
+            >
+              <div className={classes.mainLinkInner}>
+                <IconInfoCircle size={20} className={classes.mainLinkIcon} stroke={1.5} />
+                <span>About</span>
+              </div>
+            </UnstyledButton>
+
+            <UnstyledButton
+              className={classes.mainLink}
+              data-active={activePage === 'privacy'}
+              onClick={() => onNavigate('/privacy')}
+            >
+              <div className={classes.mainLinkInner}>
+                <IconShieldLock size={20} className={classes.mainLinkIcon} stroke={1.5} />
+                <span>Privacy</span>
+              </div>
+            </UnstyledButton>
+          </div>
         </div>
       </div>
 

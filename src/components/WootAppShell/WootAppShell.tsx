@@ -1,4 +1,4 @@
-import { ActionIcon, AppShell, Burger, Group, Switch, TextInput, Title, useMantineColorScheme } from '@mantine/core';
+import { ActionIcon, AppShell, Burger, Group, TextInput, Title, useMantineColorScheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconMoon, IconSearch, IconShoppingBag, IconSun } from '@tabler/icons-react';
 import type { PropsWithChildren } from 'react';
@@ -14,8 +14,10 @@ type WootAppShellProps = PropsWithChildren<{
   categories: WootCategory[];
   search: string;
   activeCategory: string | null;
+  activePage: 'catalog' | 'about' | 'privacy';
   totalProducts: number;
   showSoldOut: boolean;
+  onNavigate: (path: '/' | '/about' | '/privacy') => void;
   onSearchChange: (value: string) => void;
   onCategoryChange: (value: string | null) => void;
   onShowSoldOutChange: (value: boolean) => void;
@@ -28,8 +30,10 @@ export function WootAppShell({
   categories,
   search,
   activeCategory,
+  activePage,
   totalProducts,
   showSoldOut,
+  onNavigate,
   onSearchChange,
   onCategoryChange,
   onShowSoldOutChange,
@@ -88,6 +92,11 @@ export function WootAppShell({
           onSearchChange={onSearchChange}
           onCategoryChange={value => {
             onCategoryChange(value);
+            close();
+          }}
+          activePage={activePage}
+          onNavigate={path => {
+            onNavigate(path);
             close();
           }}
           showSoldOut={showSoldOut}

@@ -1,0 +1,26 @@
+.page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: clamp(12px, 3vw, 28px) 0 48px;
+}
+
+.hero {
+  padding: clamp(22px, 4vw, 36px);
+  border: 1px solid light-dark(rgba(15, 118, 110, 0.18), rgba(94, 234, 212, 0.18));
+  border-radius: var(--mantine-radius-md);
+  background:
+    linear-gradient(135deg, rgba(15, 118, 110, 0.12), rgba(249, 115, 22, 0.08)),
+    light-dark(rgba(255, 255, 255, 0.82), rgba(15, 23, 42, 0.72));
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.1);
+}
+
+.card {
+  height: 100%;
+  border: 1px solid light-dark(rgba(148, 163, 184, 0.24), rgba(148, 163, 184, 0.16));
+  background: light-dark(rgba(255, 255, 255, 0.82), rgba(15, 23, 42, 0.72));
+}
+
+.note {
+  border-color: light-dark(rgba(14, 116, 144, 0.28), rgba(94, 234, 212, 0.26));
+  background: light-dark(rgba(236, 253, 245, 0.78), rgba(20, 184, 166, 0.1));
+}
