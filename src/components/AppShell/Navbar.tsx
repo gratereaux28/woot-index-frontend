@@ -233,33 +233,31 @@ export function Navbar({
           </UnstyledButton>
 
           <div className={classes.secondaryLinks}>
-            <UnstyledButton
-              className={classes.mainLink}
-              data-active={activePage === 'about'}
-              onClick={() => {
-                onNavigate('/about');
-                onRequestClose();
-              }}
-            >
-              <div className={classes.mainLinkInner}>
-                <IconInfoCircle size={20} className={classes.mainLinkIcon} stroke={1.5} />
+            <div className={classes.secondaryGrid}>
+              <UnstyledButton
+                className={classes.secondaryLink}
+                data-active={activePage === 'about'}
+                onClick={() => {
+                  onNavigate('/about');
+                  onRequestClose();
+                }}
+              >
+                <IconInfoCircle size={18} className={classes.mainLinkIcon} stroke={1.5} />
                 <span>{t('nav.about')}</span>
-              </div>
-            </UnstyledButton>
+              </UnstyledButton>
 
-            <UnstyledButton
-              className={classes.mainLink}
-              data-active={activePage === 'privacy'}
-              onClick={() => {
-                onNavigate('/privacy');
-                onRequestClose();
-              }}
-            >
-              <div className={classes.mainLinkInner}>
-                <IconShieldLock size={20} className={classes.mainLinkIcon} stroke={1.5} />
+              <UnstyledButton
+                className={classes.secondaryLink}
+                data-active={activePage === 'privacy'}
+                onClick={() => {
+                  onNavigate('/privacy');
+                  onRequestClose();
+                }}
+              >
+                <IconShieldLock size={18} className={classes.mainLinkIcon} stroke={1.5} />
                 <span>{t('nav.privacy')}</span>
-              </div>
-            </UnstyledButton>
+              </UnstyledButton>
+            </div>
           </div>
         </div>
       </div>

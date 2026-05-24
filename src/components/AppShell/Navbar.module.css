@@ -64,6 +64,42 @@
   border-top: 1px solid light-dark(var(--mantine-color-gray-3), rgba(148, 163, 184, 0.14));
 }
 
+.secondaryGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--mantine-spacing-xs);
+}
+
+.secondaryLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  width: 100%;
+  font-size: var(--mantine-font-size-xs);
+  padding: 8px 6px;
+  border-radius: var(--mantine-radius-sm);
+  font-weight: 500;
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+
+  &:hover,
+  &[data-active='true'] {
+    background-color: light-dark(var(--mantine-color-orange-0), rgba(20, 184, 166, 0.12));
+    color: light-dark(var(--mantine-color-gray-7), #f8fafc);
+  }
+
+  .mainLinkIcon {
+    margin-right: 6px;
+  }
+
+  span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 .mainLinkBadge {
   padding: 0;
   min-width: 20px;
