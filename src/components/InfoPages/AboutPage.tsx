@@ -1,12 +1,15 @@
 import { Badge, Container, Group, List, Paper, SimpleGrid, Stack, Text, ThemeIcon, Title } from '@mantine/core';
 import { IconExternalLink, IconInfoCircle, IconSearch, IconShieldCheck, IconShoppingBag } from '@tabler/icons-react';
 
+import { useI18n } from '../../i18n';
 import classes from './InfoPages.module.css';
 
 /**
  * Static about page describing the product search experience and ownership boundaries.
  */
 export function AboutPage() {
+  const { t } = useI18n();
+
   return (
     <Container size="lg" className={classes.page}>
       <Stack gap="xl">
@@ -17,15 +20,13 @@ export function AboutPage() {
                 <IconInfoCircle size={20} stroke={1.7} />
               </ThemeIcon>
               <Badge color="orange" variant="light">
-                Independent search tool
+                {t('about.badge')}
               </Badge>
             </Group>
 
-            <Title order={1}>About WootIndex</Title>
+            <Title order={1}>{t('about.title')}</Title>
             <Text c="dimmed" size="lg" maw={760}>
-              WootIndex is an independent product search interface that helps you browse deals returned by our Woot
-              product API. It is built to make categories, prices, availability, photos, and product links easier to
-              scan in one place.
+              {t('about.hero')}
             </Text>
           </Stack>
         </Paper>
@@ -36,11 +37,10 @@ export function AboutPage() {
               <IconSearch size={18} stroke={1.7} />
             </ThemeIcon>
             <Title order={3} size="h4">
-              Search and discovery
+              {t('about.searchTitle')}
             </Title>
             <Text c="dimmed" mt="xs">
-              The app indexes product data from our API so you can search deals, filter by category or subcategory, and
-              quickly open the original Woot listing.
+              {t('about.searchBody')}
             </Text>
           </Paper>
 
@@ -49,11 +49,10 @@ export function AboutPage() {
               <IconShoppingBag size={18} stroke={1.7} />
             </ThemeIcon>
             <Title order={3} size="h4">
-              Purchases happen on Woot
+              {t('about.purchaseTitle')}
             </Title>
             <Text c="dimmed" mt="xs">
-              WootIndex does not sell products, process payments, manage orders, or provide customer support for any
-              purchase. External product buttons send you to Woot.
+              {t('about.purchaseBody')}
             </Text>
           </Paper>
 
@@ -62,11 +61,10 @@ export function AboutPage() {
               <IconShieldCheck size={18} stroke={1.7} />
             </ThemeIcon>
             <Title order={3} size="h4">
-              Clear ownership
+              {t('about.ownershipTitle')}
             </Title>
             <Text c="dimmed" mt="xs">
-              Woot names, product images, prices, descriptions, and deal links belong to their respective owners and may
-              change at any time.
+              {t('about.ownershipBody')}
             </Text>
           </Paper>
         </SimpleGrid>
@@ -75,24 +73,22 @@ export function AboutPage() {
           <Group gap="sm" mb="sm">
             <IconExternalLink size={20} stroke={1.7} />
             <Title order={2} size="h3">
-              Not affiliated with Woot
+              {t('about.notAffiliatedTitle')}
             </Title>
           </Group>
           <Text c="dimmed">
-            WootIndex is not affiliated with, endorsed by, sponsored by, or officially connected to Woot, Amazon, or
-            any of their affiliates. We are only a search tool for finding and previewing products before you visit the
-            official listing.
+            {t('about.notAffiliatedBody')}
           </Text>
         </Paper>
 
         <Paper p="lg" radius="md" className={classes.card}>
           <Title order={2} size="h3" mb="sm">
-            What you should verify before buying
+            {t('about.verifyTitle')}
           </Title>
           <List spacing="xs" c="dimmed">
-            <List.Item>Final price, shipping, taxes, and availability on the official Woot page.</List.Item>
-            <List.Item>Whether the deal is still active, sold out, app-only, or limited by quantity.</List.Item>
-            <List.Item>Product condition, warranty, return policy, and seller details shown by Woot.</List.Item>
+            <List.Item>{t('about.verifyPrice')}</List.Item>
+            <List.Item>{t('about.verifyStatus')}</List.Item>
+            <List.Item>{t('about.verifyPolicy')}</List.Item>
           </List>
         </Paper>
       </Stack>

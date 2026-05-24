@@ -3,6 +3,7 @@ import { IconSearch } from '@tabler/icons-react';
 import { useEffect, useRef } from 'react';
 
 import type { Product } from '@shared/catalog';
+import { useI18n } from '../i18n';
 import { ProductCard } from './ProductCard/ProductCard';
 
 /**
@@ -29,6 +30,7 @@ export function ProductGrid({
   onSelect,
 }: ProductGridProps) {
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -64,9 +66,9 @@ export function ProductGrid({
       <Center className="state-panel">
         <Stack gap="xs" align="center">
           <IconSearch size={42} stroke={1.5} />
-          <Text fw={700}>No products match this search</Text>
+          <Text fw={700}>{t('grid.emptyTitle')}</Text>
           <Text c="dimmed" size="sm">
-            Try another category, subcategory, or search term.
+            {t('grid.emptyBody')}
           </Text>
         </Stack>
       </Center>
@@ -82,7 +84,7 @@ export function ProductGrid({
       </SimpleGrid>
 
       <Center ref={sentinelRef} h={56}>
-        {loadingMore ? <Loader size="sm" /> : hasNextPage ? <Text c="dimmed" size="sm">Loading more deals</Text> : null}
+        {loadingMore ? <Loader size="sm" /> : hasNextPage ? <Text c="dimmed" size="sm">{t('grid.loadingMore')}</Text> : null}
       </Center>
     </Stack>
   );

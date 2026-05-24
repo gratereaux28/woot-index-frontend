@@ -39,6 +39,8 @@ export type Product = {
   salePriceMax?: string | null;
   listPriceMin?: string | null;
   listPriceMax?: string | null;
+  discountPercentageMin?: number | null;
+  discountPercentageMax?: number | null;
   percentageRemainingBlurred?: number | null;
   quantityLimit?: number | null;
   purchaseLimit?: number | null;
@@ -59,6 +61,23 @@ export type ProductListQuery = {
   category?: string;
   isSoldOut?: boolean;
   isFeatured?: boolean;
+  minPrice?: string;
+  maxPrice?: string;
+  discount?: string;
+  appOnly?: boolean;
+  amazonFulfilled?: boolean;
+};
+
+/**
+ * Sidebar filter state applied to product listing requests.
+ */
+export type CatalogFilters = {
+  minPrice: string;
+  maxPrice: string;
+  discount: string;
+  appOnly: boolean;
+  amazonFulfilled: boolean;
+  featuredOnly: boolean;
 };
 
 /**

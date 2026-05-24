@@ -16,6 +16,7 @@ import { IconBrandAmazon, IconExternalLink, IconPackage } from '@tabler/icons-re
 import { useEffect, useState } from 'react';
 
 import type { Product, ProductDetail } from '@shared/catalog';
+import { useI18n } from '../../i18n';
 import {
   amazonProductUrl,
   formatPrice,
@@ -39,6 +40,7 @@ type ProductModalProps = {
 export function ProductModal({ product, onClose }: ProductModalProps) {
   const [detail, setDetail] = useState<ProductDetail | null>(null);
   const [loading, setLoading] = useState(false);
+  const { language, t } = useI18n();
 
   useEffect(() => {
     let active = true;
@@ -107,19 +109,19 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
 
           <Group justify="space-between" align="flex-start">
             <Stack gap={4}>
-              <Badge variant="outline">{productCategoryLabel(detail)}</Badge>
+              <Badge variant="outline">{productCategoryLabel(detail, t('product.categoryFallback'))}</Badge>
               <Title order={3}>{currentProduct.fullTitle ?? currentProduct.title}</Title>
               <Text c="dimmed" size="sm">
-                {currentProduct.condition ?? 'Condition not specified'}
+                {currentProduct.condition ?? t('modal.conditionFallback')}
               </Text>
             </Stack>
 
             <Stack gap={3} align="flex-end">
               <Text fz="xl" fw={800}>
-                {formatPrice(currentProduct.salePriceMin)}
+                {formatPrice(currentProduct.salePriceMin, language, t('product.viewPrice'))}
               </Text>
               <Text c="dimmed" td="line-through" size="sm">
-                {formatPrice(currentProduct.listPriceMin)}
+                {formatPrice(currentProduct.listPriceMin, language, t('product.viewPrice'))}
               </Text>
             </Stack>
           </Group>
@@ -129,7 +131,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
           {detail?.items?.length ? (
             <Stack gap={6}>
               <Text fw={700} size="sm">
-                Variants
+                {t('modal.variants')}
               </Text>
               {detail.items.slice(0, 4).map(item => (
                 <Group key={item.id} justify="space-between">
@@ -137,7 +139,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                     {item.title ?? item.asin ?? item.id}
                   </Text>
                   <Text size="sm" fw={700}>
-                    {formatPrice(item.salePrice)}
+                    {formatPrice(item.salePrice, language, t('product.viewPrice'))}
                   </Text>
                 </Group>
               ))}
@@ -153,7 +155,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                 rel="noreferrer"
                 rightSection={<IconExternalLink size={16} />}
               >
-                Open in Woot
+                {t('modal.openWoot')}
               </Button>
             ) : null}
             {amazonUrl ? (
@@ -166,7 +168,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                 variant="light"
                 rightSection={<IconBrandAmazon size={16} />}
               >
-                Open in Amazon
+                {t('modal.openAmazon')}
               </Button>
             ) : null}
           </Group>

@@ -3,7 +3,7 @@ import { get as getProducts } from '@api/product';
 import { useDebouncedValue } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import type { PaginatedProducts, ProductListQuery, Category } from '@shared/catalog';
+import type { CatalogFilters, Category, PaginatedProducts, ProductListQuery } from '@shared/catalog';
 
 const initialProducts: PaginatedProducts = {
   meta: {
@@ -17,6 +17,15 @@ const initialProducts: PaginatedProducts = {
   data: [],
 };
 
+const initialFilters: CatalogFilters = {
+  minPrice: '',
+  maxPrice: '',
+  discount: '',
+  appOnly: false,
+  amazonFulfilled: false,
+  featuredOnly: false,
+};
+
 /**
  * Encapsulates all catalog state: filters, initial loading, pagination and remote errors.
  */
@@ -26,6 +35,7 @@ export function useCatalog() {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [showSoldOut, setShowSoldOut] = useState(false);
+  const [filters, setFilters] = useState<CatalogFilters>(initialFilters);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [loadingFilters, setLoadingFilters] = useState(true);
@@ -39,9 +49,24 @@ export function useCatalog() {
       search: debouncedSearch.trim() || undefined,
       category: activeCategory ?? undefined,
       isSoldOut: showSoldOut ? undefined : false,
+      isFeatured: filters.featuredOnly ? true : undefined,
+      minPrice: filters.minPrice || undefined,
+      maxPrice: filters.maxPrice || undefined,
+      discount: filters.discount || undefined,
+      appOnly: filters.appOnly ? true : undefined,
+      amazonFulfilled: filters.amazonFulfilled ? true : undefined,
     }),
-    [activeCategory, debouncedSearch, showSoldOut],
+    [activeCategory, debouncedSearch, filters, showSoldOut],
   );
+
+  const setCatalogFilters = useCallback((nextFilters: Partial<CatalogFilters>) => {
+    setFilters(current => ({ ...current, ...nextFilters }));
+  }, []);
+
+  const resetCatalogFilters = useCallback(() => {
+    setFilters(initialFilters);
+    setShowSoldOut(false);
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -127,6 +152,7 @@ export function useCatalog() {
     search,
     activeCategory,
     showSoldOut,
+    filters,
     loadingProducts,
     loadingMore,
     loadingFilters,
@@ -134,6 +160,8 @@ export function useCatalog() {
     setSearch,
     setActiveCategory,
     setShowSoldOut,
+    setCatalogFilters,
+    resetCatalogFilters,
     loadNextPage,
   };
 }

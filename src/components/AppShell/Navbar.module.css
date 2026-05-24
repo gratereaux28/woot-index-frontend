@@ -89,6 +89,31 @@
   padding-bottom: var(--mantine-spacing-md);
 }
 
+.filtersSection {
+  margin-left: calc(var(--mantine-spacing-md) * -0.5);
+  margin-right: calc(var(--mantine-spacing-md) * -0.5);
+  margin-bottom: var(--mantine-spacing-md);
+  padding-bottom: var(--mantine-spacing-md);
+  border-bottom: 1px solid light-dark(var(--mantine-color-gray-3), rgba(148, 163, 184, 0.14));
+}
+
+.filtersHeader {
+  padding-left: calc(var(--mantine-spacing-md) + 2px);
+  padding-right: var(--mantine-spacing-md);
+  margin-bottom: var(--mantine-spacing-xs);
+}
+
+.filters {
+  padding-left: calc(var(--mantine-spacing-md) - 6px);
+  padding-right: calc(var(--mantine-spacing-md) - 6px);
+}
+
+.priceGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--mantine-spacing-xs);
+}
+
 .collectionsHeader {
   padding-left: calc(var(--mantine-spacing-md) + 2px);
   padding-right: var(--mantine-spacing-md);
@@ -190,7 +215,7 @@
   }
 }
 
-.soldOutLabel {
+.filterSwitchLabel {
   display: flex;
   align-items: center;
   width: 100%;

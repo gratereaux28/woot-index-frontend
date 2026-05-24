@@ -86,6 +86,7 @@ function AppContent() {
         categories={catalog.categories}
         search={catalog.search}
         showSoldOut={catalog.showSoldOut}
+        filters={catalog.filters}
         activeCategory={catalog.activeCategory}
         activePage={activePage}
         totalProducts={catalog.products.meta.total}
@@ -93,6 +94,8 @@ function AppContent() {
         onSearchChange={handleSearchChange}
         onCategoryChange={handleCategoryChange}
         onShowSoldOutChange={catalog.setShowSoldOut}
+        onFiltersChange={catalog.setCatalogFilters}
+        onResetFilters={catalog.resetCatalogFilters}
       >
         <Routes>
           <Route

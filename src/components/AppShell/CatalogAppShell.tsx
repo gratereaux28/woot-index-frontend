@@ -1,11 +1,17 @@
-import { ActionIcon, AppShell, Burger, Group, TextInput, Title, useMantineColorScheme } from '@mantine/core';
+import { ActionIcon, AppShell, Burger, Group, Menu, Text, TextInput, Title, useMantineColorScheme } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconMoon, IconSearch, IconShoppingBag, IconSun } from '@tabler/icons-react';
 import type { PropsWithChildren } from 'react';
 
-import type { Category } from '@shared/catalog';
+import type { CatalogFilters, Category } from '@shared/catalog';
+import { useI18n, type Language } from '../../i18n';
 import { Navbar } from './Navbar';
 import classes from './CatalogAppShell.module.css';
+
+const languageOptions: Array<{ value: Language; flag: string; labelKey: 'language.english' | 'language.spanish' }> = [
+  { value: 'en', flag: '🇺🇸', labelKey: 'language.english' },
+  { value: 'es', flag: '🇪🇸', labelKey: 'language.spanish' },
+];
 
 /**
  * Container props required to render the global app shell around the catalog.
@@ -17,10 +23,13 @@ type CatalogAppShellProps = PropsWithChildren<{
   activePage: 'catalog' | 'about' | 'privacy';
   totalProducts: number;
   showSoldOut: boolean;
+  filters: CatalogFilters;
   onNavigate: (path: '/' | '/about' | '/privacy') => void;
   onSearchChange: (value: string) => void;
   onCategoryChange: (value: string | null) => void;
   onShowSoldOutChange: (value: boolean) => void;
+  onFiltersChange: (value: Partial<CatalogFilters>) => void;
+  onResetFilters: () => void;
 }>;
 
 /**
@@ -33,15 +42,20 @@ export function CatalogAppShell({
   activePage,
   totalProducts,
   showSoldOut,
+  filters,
   onNavigate,
   onSearchChange,
   onCategoryChange,
   onShowSoldOutChange,
+  onFiltersChange,
+  onResetFilters,
   children,
 }: CatalogAppShellProps) {
   const [opened, { toggle, close }] = useDisclosure();
   const { colorScheme, setColorScheme } = useMantineColorScheme();
+  const { language, setLanguage, t } = useI18n();
   const isDark = colorScheme === 'dark';
+  const currentLanguage = languageOptions.find(option => option.value === language) ?? languageOptions[0];
 
   return (
     <AppShell
@@ -62,24 +76,55 @@ export function CatalogAppShell({
           <TextInput
             visibleFrom="sm"
             className={classes.headerSearch}
-            placeholder="Search"
+            placeholder={t('app.search')}
             size="sm"
             leftSection={<IconSearch size={16} stroke={1.5} />}
             styles={{ section: { pointerEvents: 'none' } }}
-            aria-label="Search"
+            aria-label={t('app.search')}
             value={search}
             onChange={event => onSearchChange(event.currentTarget.value)}
           />
 
-          <ActionIcon
-            variant="white"
-            color={isDark ? 'yellow' : 'dark'}
-            radius="xl"
-            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            onClick={() => setColorScheme(isDark ? 'light' : 'dark')}
-          >
-            {isDark ? <IconSun size={18} /> : <IconMoon size={18} />}
-          </ActionIcon>
+          <Group gap="xs" wrap="nowrap">
+            <Menu shadow="md" radius="md" width={170} position="bottom-end">
+              <Menu.Target>
+                <ActionIcon
+                  variant="white"
+                  color="dark"
+                  radius="xl"
+                  aria-label={t('language.title')}
+                  className={classes.flagButton}
+                >
+                  <Text component="span" fz={18} lh={1}>
+                    {currentLanguage.flag}
+                  </Text>
+                </ActionIcon>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Label>{t('language.title')}</Menu.Label>
+                {languageOptions.map(option => (
+                  <Menu.Item
+                    key={option.value}
+                    onClick={() => setLanguage(option.value)}
+                    leftSection={<span className={classes.languageFlag}>{option.flag}</span>}
+                    data-active={language === option.value}
+                  >
+                    {t(option.labelKey)}
+                  </Menu.Item>
+                ))}
+              </Menu.Dropdown>
+            </Menu>
+
+            <ActionIcon
+              variant="white"
+              color={isDark ? 'yellow' : 'dark'}
+              radius="xl"
+              aria-label={isDark ? t('app.switchLight') : t('app.switchDark')}
+              onClick={() => setColorScheme(isDark ? 'light' : 'dark')}
+            >
+              {isDark ? <IconSun size={18} /> : <IconMoon size={18} />}
+            </ActionIcon>
+          </Group>
         </Group>
       </AppShell.Header>
 
@@ -89,18 +134,19 @@ export function CatalogAppShell({
           search={search}
           activeCategory={activeCategory}
           totalProducts={totalProducts}
+          filters={filters}
           onSearchChange={onSearchChange}
           onCategoryChange={value => {
             onCategoryChange(value);
             close();
           }}
           activePage={activePage}
-          onNavigate={path => {
-            onNavigate(path);
-            close();
-          }}
+          onNavigate={onNavigate}
+          onRequestClose={close}
           showSoldOut={showSoldOut}
           onShowSoldOutChange={onShowSoldOutChange}
+          onFiltersChange={onFiltersChange}
+          onResetFilters={onResetFilters}
         />
       </AppShell.Navbar>
 

@@ -1,12 +1,15 @@
 import { Badge, Container, Group, List, Paper, SimpleGrid, Stack, Text, ThemeIcon, Title } from '@mantine/core';
 import { IconDatabase, IconLock, IconRoute, IconShieldLock } from '@tabler/icons-react';
 
+import { useI18n } from '../../i18n';
 import classes from './InfoPages.module.css';
 
 /**
  * Static privacy page covering the data handled by the search app and BFF.
  */
 export function PrivacyPage() {
+  const { t } = useI18n();
+
   return (
     <Container size="lg" className={classes.page}>
       <Stack gap="xl">
@@ -17,14 +20,13 @@ export function PrivacyPage() {
                 <IconShieldLock size={20} stroke={1.7} />
               </ThemeIcon>
               <Badge color="teal" variant="light">
-                Last updated May 15, 2026
+                {t('privacy.updated')}
               </Badge>
             </Group>
 
-            <Title order={1}>Privacy</Title>
+            <Title order={1}>{t('privacy.title')}</Title>
             <Text c="dimmed" size="lg" maw={760}>
-              WootIndex is a product search tool. It does not require user accounts, does not process payments, and
-              does not intentionally collect sensitive personal information.
+              {t('privacy.hero')}
             </Text>
           </Stack>
         </Paper>
@@ -35,11 +37,10 @@ export function PrivacyPage() {
               <IconDatabase size={18} stroke={1.7} />
             </ThemeIcon>
             <Title order={2} size="h4">
-              Product data
+              {t('privacy.productTitle')}
             </Title>
             <Text c="dimmed" mt="xs">
-              The app displays product titles, prices, categories, availability, images, discount details, and Woot
-              listing links returned by the API.
+              {t('privacy.productBody')}
             </Text>
           </Paper>
 
@@ -48,11 +49,10 @@ export function PrivacyPage() {
               <IconRoute size={18} stroke={1.7} />
             </ThemeIcon>
             <Title order={2} size="h4">
-              Search requests
+              {t('privacy.searchTitle')}
             </Title>
             <Text c="dimmed" mt="xs">
-              Searches, category filters, pagination, and sold-out preferences are sent to the app BFF so it can return
-              matching product results.
+              {t('privacy.searchBody')}
             </Text>
           </Paper>
 
@@ -61,41 +61,31 @@ export function PrivacyPage() {
               <IconLock size={18} stroke={1.7} />
             </ThemeIcon>
             <Title order={2} size="h4">
-              No selling of data
+              {t('privacy.noSellTitle')}
             </Title>
             <Text c="dimmed" mt="xs">
-              We do not sell personal information. This app is designed for browsing deals, not for advertising profiles
-              or payment collection.
+              {t('privacy.noSellBody')}
             </Text>
           </Paper>
         </SimpleGrid>
 
         <Paper p="lg" radius="md" className={classes.card}>
           <Title order={2} size="h3" mb="sm">
-            Technical information
+            {t('privacy.techTitle')}
           </Title>
           <List spacing="xs" c="dimmed">
-            <List.Item>
-              Server logs may include technical metadata such as IP address, timestamps, requested URLs, browser user
-              agent, and error details for security, debugging, and reliability.
-            </List.Item>
-            <List.Item>
-              Product images may load from third-party image or CDN URLs, which means your browser may request those
-              resources directly.
-            </List.Item>
-            <List.Item>
-              When you open a Woot link, you leave WootIndex and Woot&apos;s own terms and privacy practices apply.
-            </List.Item>
+            <List.Item>{t('privacy.logs')}</List.Item>
+            <List.Item>{t('privacy.images')}</List.Item>
+            <List.Item>{t('privacy.external')}</List.Item>
           </List>
         </Paper>
 
         <Paper p="lg" radius="md" className={classes.note}>
           <Title order={2} size="h3" mb="sm">
-            Independent search tool
+            {t('privacy.independentTitle')}
           </Title>
           <Text c="dimmed">
-            WootIndex is not affiliated with, endorsed by, sponsored by, or officially connected to Woot, Amazon, or
-            any of their affiliates. We are only a search tool that helps users find and preview product listings.
+            {t('privacy.independentBody')}
           </Text>
         </Paper>
       </Stack>

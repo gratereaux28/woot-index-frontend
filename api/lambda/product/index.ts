@@ -16,5 +16,10 @@ export const get = async ({ query }: RequestOption = {}): Promise<PaginatedProdu
     category: query?.category,
     isSoldOut: query?.isSoldOut,
     isFeatured: query?.isFeatured,
+    minPrice: query?.minPrice,
+    maxPrice: query?.maxPrice,
+    discount: query?.discount,
+    appOnly: query?.appOnly,
+    amazonFulfilled: query?.amazonFulfilled,
   });
 };

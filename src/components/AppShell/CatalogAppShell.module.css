@@ -11,6 +11,16 @@
   margin-left: auto;
 }
 
+.flagButton {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+}
+
+.languageFlag {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 18px;
+  line-height: 1;
+}
+
 :global(.mantine-AppShell-header) {
   background: linear-gradient(90deg, #0f172a, #0f766e 55%, #f97316);
   color: white;

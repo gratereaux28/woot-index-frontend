@@ -19,6 +19,7 @@ import {
 } from '@tabler/icons-react';
 
 import type { Product } from '@shared/catalog';
+import { useI18n } from '../../i18n';
 import {
   amazonProductUrl,
   discountLabel,
@@ -31,24 +32,24 @@ import classes from './ProductCard.module.css';
 /**
  * Builds the compact metadata row shown in the product card footer.
  */
-const featureData = (product: Product) => [
+const featureData = (product: Product, t: ReturnType<typeof useI18n>['t']) => [
   {
-    shortLabel: product.isFeatured ? 'Featured' : 'Woot deal',
+    shortLabel: product.isFeatured ? t('product.featured') : t('product.deal'),
     fullLabel: undefined,
     icon: IconRosetteDiscountCheck,
   },
   {
-    shortLabel: product.isFulfilledByAmazon ? 'Amazon fulfilled' : 'Woot fulfilled',
+    shortLabel: product.isFulfilledByAmazon ? t('product.amazonFulfilled') : t('product.wootFulfilled'),
     fullLabel: undefined,
     icon: IconTruckDelivery,
   },
   {
-    shortLabel: product.purchaseLimit ? `${product.purchaseLimit} max` : 'No limit',
+    shortLabel: product.purchaseLimit ? t('product.max', { count: product.purchaseLimit }) : t('product.noLimit'),
     fullLabel: undefined,
     icon: IconPackage,
   },
   {
-    ...timeRemainingLabel(product.endDate),
+    ...timeRemainingLabel(product.endDate, t),
     icon: IconCalendar,
   },
 ];
@@ -65,7 +66,8 @@ type ProductCardProps = {
  * Renders product highlights, pricing and navigation actions for a single deal.
  */
 export function ProductCard({ product, onSelect }: ProductCardProps) {
-  const features = featureData(product).map(feature => {
+  const { language, t } = useI18n();
+  const features = featureData(product, t).map(feature => {
     const content = (
       <Center key={feature.shortLabel} className={classes.feature}>
         <feature.icon size={16} className={classes.icon} stroke={1.5} />
@@ -84,7 +86,7 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
     );
   });
 
-  const discount = discountLabel(product);
+  const discount = discountLabel(product, value => t('product.percentOff', { value }));
   const amazonUrl = amazonProductUrl(product);
 
   return (
@@ -129,12 +131,12 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
           ) : null}
           {product.isAvailableOnMobileAppOnly ? (
             <Badge color="green" variant="light" className={classes.discountBadge}>
-              App only
+              {t('product.appOnly')}
             </Badge>
           ) : null}
           {product.isSoldOut ? (
             <Badge color="red" variant="light" className={classes.discountBadge}>
-              Sold Out
+              {t('product.soldOut')}
             </Badge>
           ) : null}
         </div>
@@ -142,7 +144,7 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
 
       <Card.Section className={classes.section} mt="md">
         <Text fz="sm" c="dimmed" className={classes.label}>
-          Basic configuration
+          {t('product.basicConfiguration')}
         </Text>
 
         <Group gap={8} mb={-8} className={classes.features}>
@@ -154,15 +156,15 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
         <Group gap="sm" wrap="nowrap" className={classes.actions}>
           <div>
             <Text fz="xl" fw={700} style={{ lineHeight: 1 }}>
-              {formatPrice(product.salePriceMin)}
+              {formatPrice(product.salePriceMin, language, t('product.viewPrice'))}
             </Text>
             <Text fz="sm" c="dimmed" fw={500} style={{ lineHeight: 1 }} mt={3} td="line-through">
-              {formatPrice(product.listPriceMin)}
+              {formatPrice(product.listPriceMin, language, t('product.viewPrice'))}
             </Text>
           </div>
 
           <Button radius="xl" style={{ flex: 1 }} rightSection={<IconDiscount2 size={16} />}>
-            Details
+            {t('product.details')}
           </Button>
           {product.url ? (
             <Button
@@ -176,7 +178,7 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
               rightSection={<IconExternalLink size={16} />}
               onClick={event => event.stopPropagation()}
             >
-              Woot
+              {t('product.woot')}
             </Button>
           ) : null}
           {amazonUrl ? (
@@ -192,7 +194,7 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
               rightSection={<IconBrandAmazon size={16} />}
               onClick={event => event.stopPropagation()}
             >
-              Amazon
+              {t('product.amazon')}
             </Button>
           ) : null}
         </Group>
