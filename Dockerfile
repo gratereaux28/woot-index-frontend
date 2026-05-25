@@ -1,7 +1,7 @@
 ###################
 # BUILD FOR PRODUCTION
 ###################
-FROM node:22.14.0-alpine3.20 AS build
+FROM node:25 AS build
 WORKDIR /usr/src/app
 
 # Copiar archivos necesarios para la instalación de dependencias
@@ -19,7 +19,7 @@ RUN npx modern deploy
 ###################
 # PRODUCTION
 ###################
-FROM node:22.14.0-alpine3.20 AS runner
+FROM node:25-alpine AS runner
 WORKDIR /usr/src/app
 
 # Ajusta la zona horaria del servidor a America/Santo_Domingo
