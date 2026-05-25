@@ -3,12 +3,21 @@ import type { AnalyticsEventPayload, AnalyticsResponse } from '../../../../share
 
 type RequestOption = {
   data?: AnalyticsEventPayload;
+  headers?: Record<string, string>;
 };
 
 /**
  * Proxies visitor analytics events to the upstream API.
  */
-export const post = async ({ data }: RequestOption = {}): Promise<AnalyticsResponse> => {
+export const post = async ({ headers, data }: RequestOption = {}): Promise<AnalyticsResponse> => {
+    const cfHeaders: Record<string, string> = {};
+  
+  // Propagar headers de Cloudflare
+  for (const header of ['cf-connecting-ip', 'cf-ipcountry', 'x-forwarded-for', 'user-agent', 'referer']) {
+    const value = headers?.[header];
+    if (value) cfHeaders[header] = value;
+  }
+
   if (!data?.event || !data.path) {
     return { ok: false };
   }
@@ -16,5 +25,6 @@ export const post = async ({ data }: RequestOption = {}): Promise<AnalyticsRespo
   return postCatalogApi<AnalyticsResponse>('/analytics/events', {
     ...data,
     ip: data.ip ?? '',
+    headers: cfHeaders,
   });
 };

@@ -44,14 +44,17 @@ export async function postCatalogApi<T>(path: string, data: unknown): Promise<T>
   const url = new URL(path, API_BASE_URL);
   let response: Response;
 
+  const { headers, ...body } = data as {headers?: Record<string, string>};
+
   try {
     response = await fetch(url, {
       method: 'POST',
       headers: {
+        ...headers,
         ...requestHeaders,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
     });
   } catch (error) {
     throw new Error(`Upstream request failed for ${url.toString()}: ${(error as Error).message}`);
