@@ -75,6 +75,7 @@ export function PrivacyPage() {
           </Title>
           <List spacing="xs" c="dimmed">
             <List.Item>{t('privacy.logs')}</List.Item>
+            <List.Item>{t('privacy.analytics')}</List.Item>
             <List.Item>{t('privacy.images')}</List.Item>
             <List.Item>{t('privacy.external')}</List.Item>
           </List>

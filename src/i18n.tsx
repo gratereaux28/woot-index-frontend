@@ -99,6 +99,8 @@ const dictionaries = {
     'privacy.techTitle': 'Technical information',
     'privacy.logs':
       'Server logs may include technical metadata such as IP address, timestamps, requested URLs, browser user agent, and error details for security, debugging, and reliability.',
+    'privacy.analytics':
+      'We may record usage events such as page views, searches by length, selected categories, filter changes, product detail opens, external link clicks, language changes, and theme changes to understand usage and improve reliability.',
     'privacy.images':
       'Product images may load from third-party image or CDN URLs, which means your browser may request those resources directly.',
     'privacy.external':
@@ -203,6 +205,8 @@ const dictionaries = {
     'privacy.techTitle': 'Información técnica',
     'privacy.logs':
       'Los logs del servidor pueden incluir metadatos técnicos como dirección IP, fechas, URLs solicitadas, navegador y detalles de errores por seguridad, depuración y confiabilidad.',
+    'privacy.analytics':
+      'Podemos registrar eventos de uso como vistas de página, búsquedas por longitud, categorías seleccionadas, cambios de filtros, apertura de detalles, clicks en enlaces externos, cambios de idioma y cambios de tema para entender el uso y mejorar la confiabilidad.',
     'privacy.images':
       'Las imágenes de productos pueden cargarse desde URLs de imágenes o CDN de terceros, lo que significa que tu navegador puede solicitar esos recursos directamente.',
     'privacy.external':

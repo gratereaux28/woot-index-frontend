@@ -16,6 +16,7 @@ import { IconBrandAmazon, IconExternalLink, IconPackage } from '@tabler/icons-re
 import { useEffect, useState } from 'react';
 
 import type { Product, ProductDetail } from '@shared/catalog';
+import { useAnalytics } from '../../hooks/useAnalytics';
 import { useI18n } from '../../i18n';
 import {
   amazonProductUrl,
@@ -44,6 +45,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
   const [detail, setDetail] = useState<ProductDetail | null>(null);
   const [loading, setLoading] = useState(false);
   const { language, t } = useI18n();
+  const track = useAnalytics();
 
   useEffect(() => {
     let active = true;
@@ -74,6 +76,20 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
   const currentProduct = detail ?? product;
   const photos = productPhotos(detail ?? product);
   const amazonUrl = amazonProductUrl(currentProduct);
+  const trackExternalClick = (event: 'open_woot_clicked' | 'open_amazon_clicked') => {
+    if (!currentProduct) {
+      return;
+    }
+
+    track({
+      event,
+      metadata: {
+        productId: currentProduct.id,
+        isSoldOut: currentProduct.isSoldOut,
+        source: 'modal',
+      },
+    });
+  };
 
   return (
     <Modal opened={Boolean(product)} onClose={onClose} title={currentProduct?.title} size="lg" centered>
@@ -157,6 +173,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                 target="_blank"
                 rel="noreferrer"
                 rightSection={<IconExternalLink size={16} />}
+                onClick={() => trackExternalClick('open_woot_clicked')}
               >
                 {t('modal.openWoot')}
               </Button>
@@ -170,6 +187,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                 color="orange"
                 variant="light"
                 rightSection={<IconBrandAmazon size={16} />}
+                onClick={() => trackExternalClick('open_amazon_clicked')}
               >
                 {t('modal.openAmazon')}
               </Button>

@@ -4,6 +4,7 @@ import { IconMoon, IconSearch, IconShoppingBag, IconSun } from '@tabler/icons-re
 import type { PropsWithChildren } from 'react';
 
 import type { CatalogFilters, Category } from '@shared/catalog';
+import { useAnalytics } from '../../hooks/useAnalytics';
 import { useI18n, type Language } from '../../i18n';
 import { Navbar } from './Navbar';
 import classes from './CatalogAppShell.module.css';
@@ -54,8 +55,30 @@ export function CatalogAppShell({
   const [opened, { toggle, close }] = useDisclosure();
   const { colorScheme, setColorScheme } = useMantineColorScheme();
   const { language, setLanguage, t } = useI18n();
+  const track = useAnalytics();
   const isDark = colorScheme === 'dark';
   const currentLanguage = languageOptions.find(option => option.value === language) ?? languageOptions[0];
+
+  const handleLanguageChange = (nextLanguage: Language) => {
+    setLanguage(nextLanguage);
+    track({
+      event: 'language_changed',
+      metadata: {
+        language: nextLanguage,
+      },
+    });
+  };
+
+  const handleThemeToggle = () => {
+    const nextScheme = isDark ? 'light' : 'dark';
+    setColorScheme(nextScheme);
+    track({
+      event: 'theme_changed',
+      metadata: {
+        theme: nextScheme,
+      },
+    });
+  };
 
   return (
     <AppShell
@@ -105,7 +128,7 @@ export function CatalogAppShell({
                 {languageOptions.map(option => (
                   <Menu.Item
                     key={option.value}
-                    onClick={() => setLanguage(option.value)}
+                    onClick={() => handleLanguageChange(option.value)}
                     leftSection={<span className={classes.languageFlag}>{option.flag}</span>}
                     data-active={language === option.value}
                   >
@@ -120,7 +143,7 @@ export function CatalogAppShell({
               color={isDark ? 'yellow' : 'dark'}
               radius="xl"
               aria-label={isDark ? t('app.switchLight') : t('app.switchDark')}
-              onClick={() => setColorScheme(isDark ? 'light' : 'dark')}
+              onClick={handleThemeToggle}
             >
               {isDark ? <IconSun size={18} /> : <IconMoon size={18} />}
             </ActionIcon>

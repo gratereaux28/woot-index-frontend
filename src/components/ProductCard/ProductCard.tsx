@@ -19,6 +19,7 @@ import {
 } from '@tabler/icons-react';
 
 import type { Product } from '@shared/catalog';
+import { useAnalytics } from '../../hooks/useAnalytics';
 import { useI18n } from '../../i18n';
 import {
   amazonProductUrl,
@@ -70,6 +71,7 @@ type ProductCardProps = {
  */
 export function ProductCard({ product, onSelect }: ProductCardProps) {
   const { language, t } = useI18n();
+  const track = useAnalytics();
   const features = featureData(product, t).map(feature => {
     const content = (
       <Center key={feature.shortLabel} className={classes.feature}>
@@ -91,6 +93,15 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
 
   const discount = discountLabel(product, value => t('product.percentOff', { value }));
   const amazonUrl = amazonProductUrl(product);
+  const trackExternalClick = (event: 'open_woot_clicked' | 'open_amazon_clicked') => {
+    track({
+      event,
+      metadata: {
+        productId: product.id,
+        isSoldOut: product.isSoldOut,
+      },
+    });
+  };
 
   return (
     <Card
@@ -179,7 +190,10 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
               variant="light"
               className={classes.marketplaceButton}
               rightSection={<IconExternalLink size={16} />}
-              onClick={event => event.stopPropagation()}
+              onClick={event => {
+                event.stopPropagation();
+                trackExternalClick('open_woot_clicked');
+              }}
             >
               {t('product.woot')}
             </Button>
@@ -195,7 +209,10 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
               color="orange"
               className={classes.externalButton}
               rightSection={<IconBrandAmazon size={16} />}
-              onClick={event => event.stopPropagation()}
+              onClick={event => {
+                event.stopPropagation();
+                trackExternalClick('open_amazon_clicked');
+              }}
             >
               {t('product.amazon')}
             </Button>

@@ -1,8 +1,12 @@
 /**
  * Shared HTTP client used by the BFF lambdas to reach the upstream Woot API.
  */
-const API_BASE_URL = process.env.WOOT_INDEX_API_BASE_URL ?? 'http://localhost:3200';
+const API_BASE_URL = process.env.WOOT_INDEX_API_BASE_URL || process.env.WOOT_API_BASE_URL || 'http://localhost:3200';
 const API_ADMIN_KEY = process.env.WOOT_INDEX_API_ADMIN_KEY ?? '';
+
+const requestHeaders = {
+  ...(API_ADMIN_KEY ? { 'X-Admin-Key': API_ADMIN_KEY } : {}),
+};
 
 /**
  * Performs a GET request against the configured upstream API and serializes defined query params.
@@ -20,7 +24,34 @@ export async function requestCatalogApi<T>(path: string, query?: Record<string, 
 
   try {
     response = await fetch(url, {
-      headers: API_ADMIN_KEY ? { 'X-Admin-Key': API_ADMIN_KEY } : undefined,
+      headers: requestHeaders,
+    });
+  } catch (error) {
+    throw new Error(`Upstream request failed for ${url.toString()}: ${(error as Error).message}`);
+  }
+
+  if (!response.ok) {
+    throw new Error(`Upstream request failed for ${url.toString()} (${response.status})`);
+  }
+
+  return response.json() as Promise<T>;
+}
+
+/**
+ * Performs a POST request against the configured upstream API.
+ */
+export async function postCatalogApi<T>(path: string, data: unknown): Promise<T> {
+  const url = new URL(path, API_BASE_URL);
+  let response: Response;
+
+  try {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        ...requestHeaders,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
     });
   } catch (error) {
     throw new Error(`Upstream request failed for ${url.toString()}: ${(error as Error).message}`);
