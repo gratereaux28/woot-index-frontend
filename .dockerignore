@@ -1,0 +1,10 @@
+.git
+node_modules
+.env
+.env.local
+.env.*
+*.log
+dist
+.output
+.modern
+README.md

@@ -9,5 +9,16 @@ export default defineConfig({
   server: {
     port: env.PORT ? parseInt(env.PORT) : 3300,
   },
+  dev: {
+    server: {
+      headers: {
+        'X-Frame-Options': 'DENY',
+        'X-Content-Type-Options': 'nosniff',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Content-Security-Policy':
+          "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; connect-src 'self' ws: wss:; frame-ancestors 'none';",
+      },
+    },
+  },
   plugins: [appTools(), bffPlugin()],
 });

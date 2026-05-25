@@ -26,6 +26,9 @@ import {
 } from '../../utils/product';
 import classes from './ProductModal.module.css';
 
+const safeUrl = (url?: string | null) =>
+  url?.startsWith('https://') || url?.startsWith('http://') ? url : undefined;
+
 /**
  * Input for the on-demand detail modal.
  */
@@ -147,10 +150,10 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
           ) : null}
 
           <Group grow>
-            {currentProduct.url ? (
+            {safeUrl(currentProduct.url) ? (
               <Button
                 component="a"
-                href={currentProduct.url}
+                href={safeUrl(currentProduct.url)}
                 target="_blank"
                 rel="noreferrer"
                 rightSection={<IconExternalLink size={16} />}

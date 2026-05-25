@@ -1,8 +1,8 @@
 node_modules
 dist
 .modern
-.env.local
 .DS_Store
 npm-debug.log*
-.env
+.env*
+!.env.example
 .output

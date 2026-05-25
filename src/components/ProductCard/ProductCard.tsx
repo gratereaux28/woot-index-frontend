@@ -29,6 +29,9 @@ import {
 } from '../../utils/product';
 import classes from './ProductCard.module.css';
 
+const safeUrl = (url?: string | null) =>
+  url?.startsWith('https://') || url?.startsWith('http://') ? url : undefined;
+
 /**
  * Builds the compact metadata row shown in the product card footer.
  */
@@ -166,10 +169,10 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
           <Button radius="xl" style={{ flex: 1 }} rightSection={<IconDiscount2 size={16} />}>
             {t('product.details')}
           </Button>
-          {product.url ? (
+          {safeUrl(product.url) ? (
             <Button
               component="a"
-              href={product.url}
+              href={safeUrl(product.url)}
               target="_blank"
               rel="noreferrer"
               radius="xl"

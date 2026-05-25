@@ -1,14 +1,14 @@
 ###################
 # BUILD FOR PRODUCTION
 ###################
-FROM node:25 AS build
+FROM node:22.14.0-alpine3.20 AS build
 WORKDIR /usr/src/app
 
 # Copiar archivos necesarios para la instalación de dependencias
 COPY --chown=node:node package.json package-lock.json ./
 
-# Instalar dependencias
-RUN npm install
+# Instalar dependencias con versiones exactas del lockfile
+RUN npm ci
 
 # Copiar el resto del código fuente, incluyendo el directorio src
 COPY --chown=node:node . .
@@ -19,7 +19,7 @@ RUN npx modern deploy
 ###################
 # PRODUCTION
 ###################
-FROM node:25-alpine AS runner
+FROM node:22.14.0-alpine3.20 AS runner
 WORKDIR /usr/src/app
 
 # Ajusta la zona horaria del servidor a America/Santo_Domingo
