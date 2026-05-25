@@ -23,13 +23,13 @@ WootIndex is a web application for searching and browsing Woot deals through a m
 
 - Node.js compatible with Modern.js 3
 - npm
-- An HTTP API reachable at the URL configured in `WOOT_API_BASE_URL`
+- An HTTP API reachable at the URL configured in `WOOT_INDEX_API_BASE_URL`
 
 ## Getting Started
 
 1. Install dependencies with `npm install`.
 2. Create `.env` from `.env.example`.
-3. Set `WOOT_API_BASE_URL` to point to your API.
+3. Set `WOOT_INDEX_API_BASE_URL` to point to your API.
 4. Start the local environment with `npm run dev`.
 5. Build for production with `npm run build`.
 
@@ -37,7 +37,7 @@ WootIndex is a web application for searching and browsing Woot deals through a m
 
 | Variable | Required | Description | Example |
 | --- | --- | --- | --- |
-| `WOOT_API_BASE_URL` | Yes | Base URL of the upstream API that exposes categories, products, feeds, and product detail endpoints. | `http://localhost:3200` |
+| `WOOT_INDEX_API_BASE_URL` | Yes | Base URL of the upstream API that exposes categories, products, feeds, and product detail endpoints. | `http://localhost:3200` |
 | `PORT` | No | Port used by the Modern.js development/runtime server. | `3300` |
 
 ## Scripts
@@ -61,7 +61,7 @@ The application is split into three layers:
 
 1. `src/App.tsx` mounts the visual shell and connects catalog state to the UI.
 2. `src/hooks/useCatalog.ts` loads categories, fetches products, and manages pagination.
-3. `api/lambda/*.ts` turns frontend calls into HTTP requests to `WOOT_API_BASE_URL`.
+3. `api/lambda/*.ts` turns frontend calls into HTTP requests to `WOOT_INDEX_API_BASE_URL`.
 4. `src/components/ProductModal/ProductModal.tsx` retrieves the full product detail on demand when a product is opened.
 5. `src/utils/product.ts` normalizes prices, descriptions, photos, and time labels.
 
@@ -79,7 +79,7 @@ The application is split into three layers:
 
 ## Expected API Contracts
 
-The backend configured in `WOOT_API_BASE_URL` must respond to these routes:
+The backend configured in `WOOT_INDEX_API_BASE_URL` must respond to these routes:
 
 - `GET /woot/categories`
 - `GET /woot/products`

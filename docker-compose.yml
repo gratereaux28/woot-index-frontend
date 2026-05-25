@@ -1,11 +1,11 @@
 version: "3.9"
 services:
   frontend:
-    container_name: wootindex-frontend
-    image: 192.168.4.248:5000/wootindex-frontend:latest
+    container_name: woot-index-frontend
+    image: 192.168.4.248:5000/woot-index-frontend:latest
     restart: always
     ports:
       - "3300:3300"
     environment:
-      WOOT_API_BASE_URL: "http://192.168.4.248:3200"
+      WOOT_INDEX_API_BASE_URL: "http://192.168.4.248:3200"
       PORT: 3300
