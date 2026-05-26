@@ -8,6 +8,40 @@ const requestHeaders = {
   ...(API_ADMIN_KEY ? { 'X-Admin-Key': API_ADMIN_KEY } : {}),
 };
 
+export class UpstreamApiError extends Error {
+  status: number;
+
+  constructor(status: number, message = 'Upstream service failed') {
+    super(message);
+    this.name = 'UpstreamApiError';
+    this.status = status;
+  }
+}
+
+const statusFromUpstream = (status: number) => {
+  if (status === 404) {
+    return 404;
+  }
+
+  if (status >= 400 && status < 500) {
+    return 400;
+  }
+
+  return 502;
+};
+
+const messageFromStatus = (status: number) => {
+  if (status === 404) {
+    return 'Resource not found';
+  }
+
+  if (status >= 400 && status < 500) {
+    return 'Invalid upstream request';
+  }
+
+  return 'Upstream service failed';
+};
+
 /**
  * Performs a GET request against the configured upstream API and serializes defined query params.
  */
@@ -27,11 +61,12 @@ export async function requestCatalogApi<T>(path: string, query?: Record<string, 
       headers: requestHeaders,
     });
   } catch (error) {
-    throw new Error(`Upstream request failed for ${url.toString()}: ${(error as Error).message}`);
+    throw new UpstreamApiError(502);
   }
 
   if (!response.ok) {
-    throw new Error(`Upstream request failed for ${url.toString()} (${response.status})`);
+    const status = statusFromUpstream(response.status);
+    throw new UpstreamApiError(status, messageFromStatus(response.status));
   }
 
   return response.json() as Promise<T>;
@@ -57,11 +92,12 @@ export async function postCatalogApi<T>(path: string, data: unknown): Promise<T>
       body: JSON.stringify(body),
     });
   } catch (error) {
-    throw new Error(`Upstream request failed for ${url.toString()}: ${(error as Error).message}`);
+    throw new UpstreamApiError(502);
   }
 
   if (!response.ok) {
-    throw new Error(`Upstream request failed for ${url.toString()} (${response.status})`);
+    const status = statusFromUpstream(response.status);
+    throw new UpstreamApiError(status, messageFromStatus(response.status));
   }
 
   return response.json() as Promise<T>;
