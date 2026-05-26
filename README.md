@@ -36,7 +36,6 @@ api/lambda/_client.ts         Shared upstream API client
 api/lambda/analytics/events/  Analytics event proxy
 api/lambda/categories/        Category endpoint proxy
 api/lambda/product/           Product list and detail endpoint proxies
-api/lambda/feed/              Feed endpoint proxy
 shared/                       Types shared by BFF and frontend
 src/                          React application
 src/components/AppShell/      Header, sidebar, navigation, filters
@@ -92,7 +91,6 @@ The API configured in `WOOT_INDEX_API_BASE_URL` must expose these endpoints:
 | `GET` | `/woot/categories` | Returns category and subcategory navigation data. |
 | `GET` | `/woot/products` | Returns paginated product results. |
 | `GET` | `/woot/products/:id` | Returns a detailed product payload. |
-| `GET` | `/woot/feeds` | Returns feed metadata. |
 | `POST` | `/analytics/events` | Stores visitor usage events. |
 
 ### Product Query Parameters
