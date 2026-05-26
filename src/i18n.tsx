@@ -63,6 +63,9 @@ const dictionaries = {
     'modal.variants': 'Variants',
     'modal.openWoot': 'Open in Woot',
     'modal.openAmazon': 'Open in Amazon',
+    'notFound.title': 'Page not found',
+    'notFound.body': "The page you're looking for doesn't exist or may have been moved.",
+    'notFound.cta': 'Back to home',
     'about.badge': 'Independent search tool',
     'about.title': 'About WootIndex',
     'about.hero':
@@ -169,6 +172,9 @@ const dictionaries = {
     'modal.variants': 'Variantes',
     'modal.openWoot': 'Abrir en Woot',
     'modal.openAmazon': 'Abrir en Amazon',
+    'notFound.title': 'Página no encontrada',
+    'notFound.body': 'La página que buscas no existe o puede haber sido movida.',
+    'notFound.cta': 'Volver al inicio',
     'about.badge': 'Buscador independiente',
     'about.title': 'Acerca de WootIndex',
     'about.hero':

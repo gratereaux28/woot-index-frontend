@@ -1,6 +1,6 @@
 import type { Context, MiddlewareHandler, Next } from 'hono';
 
-const knownHtmlRoutes = new Set(['/', '/about', '/privacy']);
+const knownHtmlRoutes = new Set(['/', '/about', '/privacy', '/notfound']);
 
 const securityHeaders: Record<string, string> = {
   'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
@@ -9,7 +9,7 @@ const securityHeaders: Record<string, string> = {
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
   'Content-Security-Policy':
-    "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; connect-src 'self' ws: wss:; frame-ancestors 'none'; form-action 'self';",
+    "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'sha256-lH1cCoF8GR750pv/D7CtzWUKhEuepfCU9LxDg6p+mJs=' https://static.cloudflareinsights.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; connect-src 'self' ws: wss: https://cloudflareinsights.com; frame-ancestors 'none'; form-action 'self';",
 };
 
 const applySecurityHeaders = (response: Response): Response => {
@@ -21,9 +21,9 @@ const applySecurityHeaders = (response: Response): Response => {
 };
 
 const securityMiddleware: MiddlewareHandler = async (c: Context, next: Next) => {
-  if (c.req.path.endsWith('.map')) {
-    return applySecurityHeaders(new Response('Not found', { status: 404 }));
-  }
+  // if (c.req.path.endsWith('.map')) {
+  //   return applySecurityHeaders(new Response('Not found', { status: 404 }));
+  // }
 
   const acceptsHtml = c.req.header('accept')?.includes('text/html') ?? false;
   const looksLikeWellKnownRequest = c.req.path.startsWith('/.well-known/');
@@ -32,7 +32,7 @@ const securityMiddleware: MiddlewareHandler = async (c: Context, next: Next) => 
   const shouldReturnNotFound = looksLikePageRequest && !knownHtmlRoutes.has(c.req.path);
 
   if (shouldReturnNotFound) {
-    return applySecurityHeaders(new Response('Not found', { status: 404 }));
+    return Response.redirect(new URL('/notfound', c.req.url), 302);
   }
 
   await next();

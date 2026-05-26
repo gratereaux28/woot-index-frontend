@@ -8,6 +8,7 @@ export const ANALYTICS_EVENT_NAMES = [
   'open_amazon_clicked',
   'language_changed',
   'theme_changed',
+  'invalid_url',
 ] as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENT_NAMES)[number];

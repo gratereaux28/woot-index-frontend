@@ -1,7 +1,7 @@
 /**
  * Shared HTTP client used by the BFF lambdas to reach the upstream Woot API.
  */
-const API_BASE_URL = process.env.WOOT_INDEX_API_BASE_URL || process.env.WOOT_API_BASE_URL || 'http://localhost:3200';
+const API_BASE_URL = process.env.WOOT_INDEX_API_BASE_URL || 'http://localhost:3200';
 const API_ADMIN_KEY = process.env.WOOT_INDEX_API_ADMIN_KEY ?? '';
 
 const requestHeaders = {
@@ -33,6 +33,10 @@ const statusFromUpstream = (status: number) => {
 const messageFromStatus = (status: number) => {
   if (status === 404) {
     return 'Resource not found';
+  }
+
+  if(status === 429){
+    return 'Upstream service rate limit exceeded';
   }
 
   if (status >= 400 && status < 500) {

@@ -6,10 +6,11 @@ import '@mantine/carousel/styles.css';
 import './App.css';
 
 import { useEffect, useRef, useState } from 'react';
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router';
+import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import type { Product } from '@shared/catalog';
 import faviconUrl from './assets/favicon.ico';
 import { AboutPage } from './components/InfoPages/AboutPage';
+import { NotFoundPage } from './components/InfoPages/NotFoundPage';
 import { PrivacyPage } from './components/InfoPages/PrivacyPage';
 import { ProductGrid } from './components/ProductGrid';
 import { ProductModal } from './components/ProductModal/ProductModal';
@@ -191,7 +192,8 @@ function AppContent() {
           />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="/notfound" element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </CatalogAppShell>
 
