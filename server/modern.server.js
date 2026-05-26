@@ -7,13 +7,17 @@ const securityHeaders = {
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
   'Content-Security-Policy':
-    "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'sha256-lH1cCoF8GR750pv/D7CtzWUKhEuepfCU9LxDg6p+mJs=' https://static.cloudflareinsights.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; connect-src 'self' ws: wss: https://cloudflareinsights.com; frame-ancestors 'none'; form-action 'self';",
+    "default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'sha256-lH1cCoF8GR750pv/D7CtzWUKhEuepfCU9LxDg6p+mJs=' https://static.cloudflareinsights.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; connect-src 'self' wss: https://cloudflareinsights.com; frame-ancestors 'none'; form-action 'self';",
 };
+
+const headersToRemove = ['server-timing', 'x-modernjs-render', 'x-processed-by'];
 
 const applySecurityHeaders = response => {
   Object.entries(securityHeaders).forEach(([key, value]) => {
     response.headers.set(key, value);
   });
+
+  headersToRemove.forEach(header => response.headers.delete(header));
 
   return response;
 };
