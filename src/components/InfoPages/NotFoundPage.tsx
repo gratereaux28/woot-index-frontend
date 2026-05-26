@@ -12,8 +12,6 @@ export function NotFoundPage() {
   const { t } = useI18n();
   const navigate = useNavigate();
 
-  console.warn('Rendering NotFoundPage for unmatched route');
-
   return (
     <Container size="sm" className={classes.page}>
       <Stack align="center" gap="xl">
