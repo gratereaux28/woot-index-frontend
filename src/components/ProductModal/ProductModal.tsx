@@ -28,7 +28,7 @@ import {
 import classes from './ProductModal.module.css';
 
 const safeUrl = (url?: string | null) =>
-  url?.startsWith('https://') || url?.startsWith('http://') ? url : undefined;
+  url?.startsWith('https://') || url?.startsWith('http://') ? url?.replace('?utm_campaign=api.woot.com', '') : undefined;
 
 /**
  * Input for the on-demand detail modal.

@@ -31,7 +31,7 @@ import {
 import classes from './ProductCard.module.css';
 
 const safeUrl = (url?: string | null) =>
-  url?.startsWith('https://') || url?.startsWith('http://') ? url : undefined;
+  url?.startsWith('https://') || url?.startsWith('http://') ? url?.replace('?utm_campaign=api.woot.com', '') : undefined;
 
 /**
  * Builds the compact metadata row shown in the product card footer.
