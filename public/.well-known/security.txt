@@ -1,0 +1,5 @@
+Contact: https://wootindex.com/about
+Expires: 2027-05-26T00:00:00.000Z
+Canonical: https://wootindex.com/.well-known/security.txt
+Preferred-Languages: en, es
+Policy: https://wootindex.com/privacy

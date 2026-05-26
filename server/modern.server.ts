@@ -21,9 +21,9 @@ const applySecurityHeaders = (response: Response): Response => {
 };
 
 const securityMiddleware: MiddlewareHandler = async (c: Context, next: Next) => {
-  // if (c.req.path.endsWith('.map')) {
-  //   return applySecurityHeaders(new Response('Not found', { status: 404 }));
-  // }
+  if (c.req.path.endsWith('.map')) {
+    return applySecurityHeaders(new Response('Not found', { status: 404 }));
+  }
 
   const acceptsHtml = c.req.header('accept')?.includes('text/html') ?? false;
   const looksLikeWellKnownRequest = c.req.path.startsWith('/.well-known/');

@@ -193,7 +193,7 @@ function AppContent() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/notfound" element={<NotFoundPage />} />
-          <Route path="*" element={<NotFoundPage />} />
+          {/* <Route path="*" element={<NotFoundPage />} /> */}
         </Routes>
       </CatalogAppShell>
 
