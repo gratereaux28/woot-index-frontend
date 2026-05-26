@@ -1,19 +1,3 @@
-const API_BASE_URL = process.env.WOOT_INDEX_API_BASE_URL || 'http://localhost:3200';
-const API_ADMIN_KEY = process.env.WOOT_INDEX_API_ADMIN_KEY ?? '';
-
-const trackInvalidUrl = (path, url, headers) => {
-  const apiUrl = new URL('/analytics/events', API_BASE_URL);
-  fetch(apiUrl, {
-    method: 'POST',
-    headers: {
-      ...headers,
-      'Content-Type': 'application/json',
-      ...(API_ADMIN_KEY ? { 'X-Admin-Key': API_ADMIN_KEY } : {}),
-    },
-    body: JSON.stringify({ event: 'invalid_url', path, metadata: { url } }),
-  }).catch(() => {});
-};
-
 const knownHtmlRoutes = new Set(['/', '/about', '/privacy', '/notfound']);
 
 const securityHeaders = {
@@ -46,19 +30,6 @@ const securityMiddleware = async (c, next) => {
   const shouldReturnNotFound = looksLikePageRequest && !knownHtmlRoutes.has(c.req.path);
 
   if (shouldReturnNotFound) {
-    const cfHeaders = {};
-
-    for (const header of ['cf-connecting-ip', 'cf-ipcountry', 'x-forwarded-for', 'user-agent', 'referer']) {
-      const value = c.req.header?.[header];
-      if (value) cfHeaders[header] = value;
-    }
-
-    trackInvalidUrl(
-      c.req.path,
-      c.req.url,
-      cfHeaders,
-    );
-
     return Response.redirect(new URL('/notfound', c.req.url), 302);
   }
 
