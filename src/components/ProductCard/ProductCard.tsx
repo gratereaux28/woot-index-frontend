@@ -26,6 +26,7 @@ import {
   camelcamelcamelProductUrl,
   discountLabel,
   formatPrice,
+  isExpiringSoon,
   productDescription,
   timeRemainingLabel,
 } from '../../utils/product';
@@ -73,6 +74,8 @@ type ProductCardProps = {
 export function ProductCard({ product, onSelect }: ProductCardProps) {
   const { language, t } = useI18n();
   const track = useAnalytics();
+  const showWootOffBadge = Boolean(product.isWootOff);
+  const showHurryUpBadge = !product.isSoldOut && isExpiringSoon(product.endDate);
   const features = featureData(product, t).map(feature => {
     const content = (
       <Center key={feature.shortLabel} className={classes.feature}>
@@ -130,7 +133,7 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
         )}
       </Card.Section>
 
-      <Group justify="space-between" mt="md" align="flex-start" wrap="nowrap">
+      <Group justify="space-between" mt="md" align="flex-start" wrap="nowrap" className={classes.summary}>
         <div className={classes.titleBlock}>
           <Text fw={500} lineClamp={2}>
             {product.title}
@@ -140,6 +143,16 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
           </Text>
         </div>
         <div className={classes.badgeStack}>
+          {showWootOffBadge ? (
+            <Badge color="yellow" variant="filled" className={classes.discountBadge}>
+              {t('product.wootOff')}
+            </Badge>
+          ) : null}
+          {showHurryUpBadge ? (
+            <Badge color="orange" variant="filled" className={classes.discountBadge}>
+              {t('product.hurryUp')}
+            </Badge>
+          ) : null}
           {discount ? (
             <Badge variant="outline" className={classes.discountBadge}>
               {discount}

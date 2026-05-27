@@ -138,6 +138,24 @@ export const timeRemainingLabel = (endDate?: string | null, t?: TimeLabelFormatt
 };
 
 /**
+ * Flags deals that are close enough to expiring to merit an urgency badge.
+ */
+export const isExpiringSoon = (endDate?: string | null, thresholdHours = 6) => {
+  if (!endDate) {
+    return false;
+  }
+
+  const end = new Date(endDate).getTime();
+
+  if (Number.isNaN(end)) {
+    return false;
+  }
+
+  const diffMs = end - Date.now();
+  return diffMs > 0 && diffMs <= thresholdHours * 3_600_000;
+};
+
+/**
  * Extracts the most specific category label available from a detailed product payload.
  */
 export const productCategoryLabel = (product?: ProductDetail | null, fallback = 'Woot deal') => {
