@@ -23,6 +23,7 @@ import { useAnalytics } from '../../hooks/useAnalytics';
 import { useI18n } from '../../i18n';
 import {
   amazonProductUrl,
+  camelcamelcamelProductUrl,
   discountLabel,
   formatPrice,
   productDescription,
@@ -93,7 +94,8 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
 
   const discount = discountLabel(product, value => t('product.percentOff', { value }));
   const amazonUrl = amazonProductUrl(product);
-  const trackExternalClick = (event: 'open_woot_clicked' | 'open_amazon_clicked') => {
+  const camelcamelcamelUrl = camelcamelcamelProductUrl(product);
+  const trackExternalClick = (event: 'open_woot_clicked' | 'open_amazon_clicked' | 'open_camelcamelcamel_clicked') => {
     track({
       event,
       metadata: {
@@ -217,6 +219,20 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
               {t('product.amazon')}
             </Button>
           ) : null}
+            {camelcamelcamelUrl ? (
+              <Button
+                component="a"
+                href={camelcamelcamelUrl}
+                target="_blank"
+                rel="noreferrer"
+                color="#C68642"
+                variant="light"
+                rightSection={<IconExternalLink size={16} />}
+                onClick={() => trackExternalClick('open_camelcamelcamel_clicked')}
+              >
+                {t('modal.openCamelCamelCamel')}
+              </Button>
+            ) : null}
         </Group>
       </Card.Section>
     </Card>

@@ -20,6 +20,7 @@ import { useAnalytics } from '../../hooks/useAnalytics';
 import { useI18n } from '../../i18n';
 import {
   amazonProductUrl,
+  camelcamelcamelProductUrl,
   formatPrice,
   productCategoryLabel,
   productDescription,
@@ -76,7 +77,8 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
   const currentProduct = detail ?? product;
   const photos = productPhotos(detail ?? product);
   const amazonUrl = amazonProductUrl(currentProduct);
-  const trackExternalClick = (event: 'open_woot_clicked' | 'open_amazon_clicked') => {
+  const camelcamelcamelUrl = camelcamelcamelProductUrl(currentProduct);
+  const trackExternalClick = (event: 'open_woot_clicked' | 'open_amazon_clicked' | 'open_camelcamelcamel_clicked') => {
     if (!currentProduct) {
       return;
     }
@@ -190,6 +192,20 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                 onClick={() => trackExternalClick('open_amazon_clicked')}
               >
                 {t('modal.openAmazon')}
+              </Button>
+            ) : null}
+            {camelcamelcamelUrl ? (
+              <Button
+                component="a"
+                href={camelcamelcamelUrl}
+                target="_blank"
+                rel="noreferrer"
+                color="#C68642"
+                variant="light"
+                rightSection={<IconExternalLink size={16} />}
+                onClick={() => trackExternalClick('open_camelcamelcamel_clicked')}
+              >
+                {t('modal.openCamelCamelCamel')}
               </Button>
             ) : null}
           </Group>

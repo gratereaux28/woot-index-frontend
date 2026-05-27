@@ -191,3 +191,11 @@ export const amazonProductUrl = (product?: ProductDetail | Product | null) => {
   const asin = productAsin(product);
   return asin ? `https://www.amazon.com/gp/product/${encodeURIComponent(asin)}` : null;
 };
+
+/**
+ * Builds the camelcamelcamel product URL for a product when an ASIN is available.
+ */
+export const camelcamelcamelProductUrl = (product?: ProductDetail | Product | null) => {
+  const asin = productAsin(product);
+  return asin ? `https://camelcamelcamel.com/product/${encodeURIComponent(asin)}` : null;
+};

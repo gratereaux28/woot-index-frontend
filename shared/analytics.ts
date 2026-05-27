@@ -6,6 +6,7 @@ export const ANALYTICS_EVENT_NAMES = [
   'product_detail_opened',
   'open_woot_clicked',
   'open_amazon_clicked',
+  'open_camelcamelcamel_clicked',
   'language_changed',
   'theme_changed',
   'invalid_url',
