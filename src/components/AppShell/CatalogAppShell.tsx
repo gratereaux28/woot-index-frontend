@@ -21,11 +21,11 @@ type CatalogAppShellProps = PropsWithChildren<{
   categories: Category[];
   search: string;
   activeCategory: string | null;
-  activePage: 'catalog' | 'about' | 'privacy';
+  activePage: 'catalog' | 'about' | 'privacy' | 'terms' | 'contact';
   totalProducts: number;
   showSoldOut: boolean;
   filters: CatalogFilters;
-  onNavigate: (path: '/' | '/about' | '/privacy') => void;
+  onNavigate: (path: '/' | '/about' | '/privacy' | '/terms' | '/contact') => void;
   onSearchChange: (value: string) => void;
   onCategoryChange: (value: string | null) => void;
   onShowSoldOutChange: (value: boolean) => void;
@@ -100,7 +100,6 @@ export function CatalogAppShell({
             visibleFrom="sm"
             className={classes.headerSearch}
             placeholder={t('app.search')}
-            size="sm"
             leftSection={<IconSearch size={16} stroke={1.5} />}
             styles={{ section: { pointerEvents: 'none' } }}
             aria-label={t('app.search')}

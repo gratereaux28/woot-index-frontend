@@ -1,10 +1,12 @@
-import { Center, Loader, SimpleGrid, Stack, Text } from '@mantine/core';
+import { Center, Loader, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import { useEffect, useRef } from 'react';
 
 import type { Product } from '@shared/catalog';
 import { useI18n } from '../i18n';
 import { ProductCard } from './ProductCard/ProductCard';
+
+import classes from './ProductGrid.module.css';
 
 /**
  * Props required to render the product grid and trigger incremental pagination.
@@ -14,8 +16,10 @@ type ProductGridProps = {
   loading: boolean;
   loadingMore: boolean;
   hasNextPage: boolean;
+  search: string;
   onLoadMore: () => void;
   onSelect: (product: Product) => void;
+  onSearchChange: (value: string) => void;
 };
 
 /**
@@ -26,8 +30,10 @@ export function ProductGrid({
   loading,
   loadingMore,
   hasNextPage,
+  search,
   onLoadMore,
   onSelect,
+  onSearchChange,
 }: ProductGridProps) {
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   const { t } = useI18n();
@@ -77,6 +83,18 @@ export function ProductGrid({
 
   return (
     <Stack gap="lg">
+      <TextInput
+        className={classes.productSearch}
+        placeholder={t('app.search')}
+        hiddenFrom="sm"
+        size="lg"
+        leftSection={<IconSearch size={16} stroke={1.5} />}
+        styles={{ section: { pointerEvents: 'none' } }}
+        aria-label={t('app.search')}
+        value={search}
+        onChange={event => onSearchChange(event.currentTarget.value)}
+      />
+
       <SimpleGrid cols={{ base: 1, sm: 2, lg: 3, xl: 4 }} spacing="md">
         {products.map(product => (
           <ProductCard key={product.id} product={product} onSelect={onSelect} />

@@ -12,6 +12,8 @@ const dictionaries = {
     'nav.categories': 'Categories',
     'nav.about': 'About',
     'nav.privacy': 'Privacy',
+    'nav.terms': 'Terms',
+    'nav.contact': 'Contact',
     'nav.products': '{count} products',
     'language.title': 'Language',
     'language.english': 'English',
@@ -114,6 +116,46 @@ const dictionaries = {
     'privacy.independentTitle': 'Independent search tool',
     'privacy.independentBody':
       'WootIndex is not affiliated with, endorsed by, sponsored by, or officially connected to Woot, Amazon, or any of their affiliates. We are only a search tool that helps users find and preview product listings.',
+    'terms.updated': 'Last updated May 29, 2026',
+    'terms.title': 'Terms and Conditions',
+    'terms.hero':
+      'These terms explain how you may use WootIndex. By using the app, you agree that WootIndex is an independent search tool and that purchases, payments, shipping, returns, and customer support happen outside this app.',
+    'terms.useTitle': 'Use of the service',
+    'terms.useBody':
+      'You may use WootIndex to search, filter, preview, and open product listings returned by our API. The app is intended for personal browsing and product discovery.',
+    'terms.purchaseTitle': 'Purchases and third parties',
+    'terms.purchaseBody':
+      'WootIndex does not sell products, process payments, fulfill orders, or provide purchase support. When you open Woot or Amazon, their own terms, policies, prices, and availability apply.',
+    'terms.accuracyTitle': 'Information accuracy',
+    'terms.accuracyBody':
+      'Product data can change quickly. Prices, discounts, stock status, photos, descriptions, app-only availability, shipping, taxes, and limits should be verified on the official listing before buying.',
+    'terms.rulesTitle': 'Acceptable use',
+    'terms.ruleLawful': 'Use the app only for lawful purposes and in a way that does not violate third-party rights.',
+    'terms.ruleNoAbuse': 'Do not attempt to overload, scrape abusively, bypass protections, or interfere with the app or its API.',
+    'terms.ruleNoCopy':
+      'Do not copy, reproduce, or redistribute product data, images, branding, or third-party content except where you have the right to do so.',
+    'terms.ruleAvailability':
+      'We may change, pause, or discontinue features, data availability, or access to the app at any time.',
+    'terms.independentTitle': 'No affiliation or endorsement',
+    'terms.independentBody':
+      'WootIndex is not affiliated with, endorsed by, sponsored by, or officially connected to Woot, Amazon, or any of their affiliates. Product names, images, marks, and links belong to their respective owners.',
+    'contact.title': 'Contact Us',
+    'contact.hero':
+      'Send questions, bug reports, feedback, or partnership notes about WootIndex. We cannot provide order support for Woot or Amazon purchases, but we can help with the search experience.',
+    'contact.emailTitle': 'Email',
+    'contact.emailBody': 'You can contact us directly by email. This is the best option for urgent or detailed messages.',
+    'contact.scopeTitle': 'Support scope',
+    'contact.scopeBody':
+      'For product availability, shipping, returns, payments, warranties, or order status, please contact the official marketplace where you placed the order.',
+    'contact.formTitle': 'Send a message',
+    'contact.name': 'Name',
+    'contact.email': 'Email',
+    'contact.subject': 'Subject',
+    'contact.message': 'Message',
+    'contact.submit': 'Send message',
+    'contact.success': 'Thanks. Your message was sent successfully.',
+    'contact.error': 'The message could not be sent right now. You can email us directly at',
+    'contact.notConfigured': 'The contact form is not configured yet. You can email us directly at',
   },
   es: {
     'app.search': 'Buscar',
@@ -124,6 +166,8 @@ const dictionaries = {
     'nav.categories': 'Categorías',
     'nav.about': 'Acerca de',
     'nav.privacy': 'Privacidad',
+    'nav.terms': 'Términos',
+    'nav.contact': 'Contacto',
     'nav.products': '{count} productos',
     'language.title': 'Idioma',
     'language.english': 'Inglés',
@@ -226,6 +270,46 @@ const dictionaries = {
     'privacy.independentTitle': 'Buscador independiente',
     'privacy.independentBody':
       'WootIndex no está afiliado, respaldado, patrocinado ni conectado oficialmente con Woot, Amazon ni ninguno de sus afiliados. Somos solo un buscador que ayuda a encontrar y previsualizar listados de productos.',
+    'terms.updated': 'Última actualización: 29 de mayo de 2026',
+    'terms.title': 'Términos y condiciones',
+    'terms.hero':
+      'Estos términos explican cómo puedes usar WootIndex. Al usar la app, aceptas que WootIndex es un buscador independiente y que las compras, pagos, envíos, devoluciones y soporte al cliente ocurren fuera de esta app.',
+    'terms.useTitle': 'Uso del servicio',
+    'terms.useBody':
+      'Puedes usar WootIndex para buscar, filtrar, previsualizar y abrir listados de productos devueltos por nuestra API. La app está pensada para exploración personal y descubrimiento de productos.',
+    'terms.purchaseTitle': 'Compras y terceros',
+    'terms.purchaseBody':
+      'WootIndex no vende productos, no procesa pagos, no gestiona pedidos ni ofrece soporte de compra. Cuando abres Woot o Amazon, aplican sus propios términos, políticas, precios y disponibilidad.',
+    'terms.accuracyTitle': 'Exactitud de la información',
+    'terms.accuracyBody':
+      'Los datos de productos pueden cambiar rápidamente. Precios, descuentos, inventario, fotos, descripciones, disponibilidad solo en app, envíos, impuestos y límites deben verificarse en el listado oficial antes de comprar.',
+    'terms.rulesTitle': 'Uso aceptable',
+    'terms.ruleLawful': 'Usa la app solo para fines legales y de una forma que no viole derechos de terceros.',
+    'terms.ruleNoAbuse': 'No intentes sobrecargar, extraer datos abusivamente, evadir protecciones o interferir con la app o su API.',
+    'terms.ruleNoCopy':
+      'No copies, reproduzcas ni redistribuyas datos de productos, imágenes, marcas o contenido de terceros salvo que tengas derecho a hacerlo.',
+    'terms.ruleAvailability':
+      'Podemos cambiar, pausar o descontinuar funciones, disponibilidad de datos o acceso a la app en cualquier momento.',
+    'terms.independentTitle': 'Sin afiliación ni respaldo',
+    'terms.independentBody':
+      'WootIndex no está afiliado, respaldado, patrocinado ni conectado oficialmente con Woot, Amazon ni ninguno de sus afiliados. Los nombres, imágenes, marcas y enlaces de productos pertenecen a sus respectivos dueños.',
+    'contact.title': 'Contáctanos',
+    'contact.hero':
+      'Envía preguntas, reportes de errores, comentarios o notas de colaboración sobre WootIndex. No podemos dar soporte de pedidos de Woot o Amazon, pero sí podemos ayudar con la experiencia de búsqueda.',
+    'contact.emailTitle': 'Correo',
+    'contact.emailBody': 'Puedes contactarnos directamente por correo. Es la mejor opción para mensajes urgentes o detallados.',
+    'contact.scopeTitle': 'Alcance del soporte',
+    'contact.scopeBody':
+      'Para disponibilidad de productos, envíos, devoluciones, pagos, garantías o estado de pedidos, contacta al marketplace oficial donde realizaste la compra.',
+    'contact.formTitle': 'Enviar un mensaje',
+    'contact.name': 'Nombre',
+    'contact.email': 'Correo',
+    'contact.subject': 'Asunto',
+    'contact.message': 'Mensaje',
+    'contact.submit': 'Enviar mensaje',
+    'contact.success': 'Gracias. Tu mensaje fue enviado correctamente.',
+    'contact.error': 'El mensaje no se pudo enviar ahora mismo. Puedes escribirnos directamente a',
+    'contact.notConfigured': 'El formulario de contacto aún no está configurado. Puedes escribirnos directamente a',
   },
 } as const;
 

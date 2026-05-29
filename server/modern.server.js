@@ -1,4 +1,4 @@
-const knownHtmlRoutes = new Set(['/', '/about', '/privacy', '/notfound']);
+const knownHtmlRoutes = new Set(['/', '/about', '/contact', '/privacy', '/notfound']);
 
 const securityHeaders = {
   'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',

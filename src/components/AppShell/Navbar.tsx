@@ -16,8 +16,10 @@ import {
 } from '@mantine/core';
 import {
   IconChevronRight,
+  IconFileText,
   IconGridDots,
   IconInfoCircle,
+  IconMail,
   IconPlus,
   IconSearch,
   IconShieldLock,
@@ -39,11 +41,11 @@ type NavbarProps = {
   categories: Category[];
   search: string;
   activeCategory: string | null;
-  activePage: 'catalog' | 'about' | 'privacy';
+  activePage: 'catalog' | 'about' | 'privacy' | 'terms' | 'contact';
   totalProducts: number;
   showSoldOut: boolean;
   filters: CatalogFilters;
-  onNavigate: (path: '/' | '/about' | '/privacy') => void;
+  onNavigate: (path: '/' | '/about' | '/privacy' | '/terms' | '/contact') => void;
   onRequestClose: () => void;
   onShowSoldOutChange: (value: boolean) => void;
   onFiltersChange: (value: Partial<CatalogFilters>) => void;
@@ -185,8 +187,9 @@ export function Navbar({
         <UserButton totalProducts={totalProducts} onResetFilters={handleResetFilters} />
       </div>
 
-      <TextInput
+      {/* <TextInput
         placeholder={t('app.search')}
+        hiddenFrom="md"
         size="xs"
         value={search}
         onChange={event => {
@@ -197,7 +200,7 @@ export function Navbar({
         styles={{ section: { pointerEvents: 'none' } }}
         mb="sm"
         aria-label={t('app.search')}
-      />
+      /> */}
 
       <div className={classes.section}>
         <div className={classes.mainLinks}>
@@ -236,6 +239,18 @@ export function Navbar({
             <div className={classes.secondaryGrid}>
               <UnstyledButton
                 className={classes.secondaryLink}
+                data-active={activePage === 'contact'}
+                onClick={() => {
+                  onNavigate('/contact');
+                  onRequestClose();
+                }}
+              >
+                <IconMail size={18} className={classes.mainLinkIcon} stroke={1.5} />
+                <span>{t('nav.contact')}</span>
+              </UnstyledButton>
+              
+              <UnstyledButton
+                className={classes.secondaryLink}
                 data-active={activePage === 'about'}
                 onClick={() => {
                   onNavigate('/about');
@@ -256,6 +271,18 @@ export function Navbar({
               >
                 <IconShieldLock size={18} className={classes.mainLinkIcon} stroke={1.5} />
                 <span>{t('nav.privacy')}</span>
+              </UnstyledButton>
+
+              <UnstyledButton
+                className={classes.secondaryLink}
+                data-active={activePage === 'terms'}
+                onClick={() => {
+                  onNavigate('/terms');
+                  onRequestClose();
+                }}
+              >
+                <IconFileText size={18} className={classes.mainLinkIcon} stroke={1.5} />
+                <span>{t('nav.terms')}</span>
               </UnstyledButton>
             </div>
           </div>

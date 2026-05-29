@@ -23,23 +23,22 @@
 }
 
 .imageSection {
-  height: 230px;
+  height: 260px;
   padding: var(--mantine-spacing-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid light-dark(var(--mantine-color-teal-1), rgba(148, 163, 184, 0.14));
   background: transparent;
 }
 
 .image {
   width: 100%;
-  max-height: 188px;
+  max-height: 224px;
 }
 
 .emptyImage {
   width: 100%;
-  height: 188px;
+  height: 224px;
   color: light-dark(var(--mantine-color-gray-5), var(--mantine-color-dark-2));
 }
 

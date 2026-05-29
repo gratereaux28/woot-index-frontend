@@ -1,0 +1,10 @@
+.productSearch {
+  width: 100%;
+}
+.productSearch input {
+  height: 38px;
+}
+
+.productSearch input::placeholder {
+  color: light-dark(var(--mantine-color-gray-5), #94a3b8);
+}

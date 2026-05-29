@@ -10,6 +10,7 @@ export const ANALYTICS_EVENT_NAMES = [
   'language_changed',
   'theme_changed',
   'invalid_url',
+  'contact_form_submitted',
 ] as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENT_NAMES)[number];

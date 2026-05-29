@@ -1,6 +1,6 @@
 import type { Context, MiddlewareHandler, Next } from 'hono';
 
-const knownHtmlRoutes = new Set(['/', '/about', '/privacy', '/notfound']);
+const knownHtmlRoutes = new Set(['/', '/about', '/contact', '/privacy', '/notfound']);
 
 const securityHeaders: Record<string, string> = {
   'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',

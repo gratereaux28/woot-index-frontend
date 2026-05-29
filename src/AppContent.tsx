@@ -10,8 +10,10 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import type { Product } from '@shared/catalog';
 import faviconUrl from './assets/favicon.ico';
 import { AboutPage } from './components/InfoPages/AboutPage';
+import { ContactPage } from './components/InfoPages/ContactPage';
 import { NotFoundPage } from './components/InfoPages/NotFoundPage';
 import { PrivacyPage } from './components/InfoPages/PrivacyPage';
+import { TermsPage } from './components/InfoPages/TermsPage';
 import { ProductGrid } from './components/ProductGrid';
 import { ProductModal } from './components/ProductModal/ProductModal';
 import { CatalogAppShell } from './components/AppShell/CatalogAppShell';
@@ -19,7 +21,7 @@ import { FloatingScrollTop } from './components/FloatingScrollTop';
 import { useAnalytics } from './hooks/useAnalytics';
 import { useCatalog } from './hooks/useCatalog';
 
-type AppPage = 'catalog' | 'about' | 'privacy';
+type AppPage = 'catalog' | 'about' | 'privacy' | 'terms' | 'contact';
 
 function pageFromPathname(pathname: string): AppPage {
   if (pathname === '/about') {
@@ -28,6 +30,14 @@ function pageFromPathname(pathname: string): AppPage {
 
   if (pathname === '/privacy') {
     return 'privacy';
+  }
+
+  if (pathname === '/terms') {
+    return 'terms';
+  }
+
+  if (pathname === '/contact') {
+    return 'contact';
   }
 
   return 'catalog';
@@ -62,9 +72,12 @@ function AppContent() {
     }
   }, []);
 
-  const navigate = (path: '/' | '/about' | '/privacy') => {
+  const navigate = (path: '/' | '/about' | '/privacy' | '/terms' | '/contact') => {
     if (location.pathname !== path) {
-      routerNavigate(path);
+      routerNavigate({
+        pathname: path,
+        search: path === '/' ? window.location.search : '',
+      });
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -185,13 +198,17 @@ function AppContent() {
                 loading={catalog.loadingProducts}
                 loadingMore={catalog.loadingMore}
                 hasNextPage={catalog.products.meta.hasNextPage}
+                search={catalog.search}
                 onLoadMore={catalog.loadNextPage}
                 onSelect={handleProductSelect}
+                onSearchChange={handleSearchChange}
               />
             }
           />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           <Route path="/notfound" element={<NotFoundPage />} />
           {/* <Route path="*" element={<NotFoundPage />} /> */}
         </Routes>

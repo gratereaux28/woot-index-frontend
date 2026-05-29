@@ -148,11 +148,11 @@ export function ProductCard({ product, onSelect }: ProductCardProps) {
               {t('product.wootOff')}
             </Badge>
           ) : null}
-          {showHurryUpBadge ? (
+          {/* {showHurryUpBadge ? (
             <Badge color="orange" variant="filled" className={classes.discountBadge}>
               {t('product.hurryUp')}
             </Badge>
-          ) : null}
+          ) : null} */}
           {discount ? (
             <Badge variant="outline" className={classes.discountBadge}>
               {discount}

@@ -14,7 +14,7 @@ WootIndex is not affiliated with, endorsed by, sponsored by, or officially conne
 - Supports English and Spanish UI text with a header language menu.
 - Supports dark and light color schemes, with dark mode as the default.
 - Sends privacy-conscious usage analytics events through the BFF.
-- Provides About and Privacy pages with the required independent-tool disclosure.
+- Provides About, Privacy, Terms, and Contact pages with the required independent-tool disclosure.
 
 ## Tech Stack
 
@@ -35,13 +35,14 @@ api/lambda/                  Modern.js BFF routes
 api/lambda/_client.ts         Shared upstream API client
 api/lambda/analytics/events/  Analytics event proxy
 api/lambda/categories/        Category endpoint proxy
+api/lambda/contact/           Contact form proxy
 api/lambda/product/           Product list and detail endpoint proxies
 shared/                       Types shared by BFF and frontend
 src/                          React application
 src/components/AppShell/      Header, sidebar, navigation, filters
 src/components/ProductCard/   Catalog product cards
 src/components/ProductModal/  Product detail modal
-src/components/InfoPages/     About and Privacy pages
+src/components/InfoPages/     About, Privacy, Terms, Contact, and Not Found pages
 src/hooks/                    Catalog and analytics hooks
 src/i18n.tsx                  English/Spanish dictionaries and provider
 src/utils/                    Product formatting helpers
@@ -78,6 +79,9 @@ If analytics need the real visitor IP, Cloudflare/Nginx must forward headers suc
 | `WOOT_INDEX_API_BASE_URL` | Yes | Base URL for the upstream WootIndex API used by the BFF. | `http://localhost:3200` |
 | `WOOT_API_BASE_URL` | No | Backward-compatible fallback name for the upstream API URL. | `http://localhost:3200` |
 | `WOOT_INDEX_API_ADMIN_KEY` | No | Optional admin/API key sent as `X-Admin-Key` to the upstream API. | `secret-value` |
+| `WOOT_INDEX_CONTACT_RECIPIENT` | No | Recipient used by the contact form. Defaults to `info@wootindex.com`. | `info@wootindex.com` |
+| `WOOT_INDEX_CONTACT_WEBHOOK_URL` | No | Server-side webhook/mail endpoint used by `/api/contact` to deliver contact messages. | `https://api.example.com/contact` |
+| `WOOT_INDEX_CONTACT_WEBHOOK_TOKEN` | No | Optional bearer token sent to the contact webhook. | `secret-value` |
 | `PORT` | No | Port used by the Modern.js server. | `3300` |
 
 If `WOOT_INDEX_API_BASE_URL` and `WOOT_API_BASE_URL` are not set, the BFF falls back to `http://localhost:3200`. That fallback is useful for local development, but it is usually wrong inside Docker because `localhost` points to the frontend container itself.
@@ -92,6 +96,12 @@ The API configured in `WOOT_INDEX_API_BASE_URL` must expose these endpoints:
 | `GET` | `/woot/products` | Returns paginated product results. |
 | `GET` | `/woot/products/:id` | Returns a detailed product payload. |
 | `POST` | `/analytics/events` | Stores visitor usage events. |
+
+The frontend BFF also exposes:
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `POST` | `/api/contact` | Validates contact form messages and forwards them to `WOOT_INDEX_CONTACT_WEBHOOK_URL` when configured. |
 
 ### Product Query Parameters
 
@@ -154,6 +164,7 @@ Current event names:
 - `open_camelcamelcamel_clicked`
 - `language_changed`
 - `theme_changed`
+- `contact_form_submitted`
 
 The API may respond with any JSON object. The current implementation accepts responses such as:
 
