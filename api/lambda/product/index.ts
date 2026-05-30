@@ -14,6 +14,7 @@ export const get = async ({ query }: RequestOption = {}): Promise<PaginatedProdu
     limit: query?.limit ?? 24,
     search: query?.search,
     category: query?.category,
+    orderBy: query?.orderBy,
     isSoldOut: query?.isSoldOut,
     isFeatured: query?.isFeatured,
     minPrice: query?.minPrice,

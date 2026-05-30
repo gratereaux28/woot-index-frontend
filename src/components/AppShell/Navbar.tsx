@@ -7,6 +7,7 @@ import {
   Group,
   NumberInput,
   SegmentedControl,
+  Select,
   Stack,
   Switch,
   Text,
@@ -27,7 +28,7 @@ import {
 } from '@tabler/icons-react';
 import { useState } from 'react';
 
-import type { CatalogFilters, Category } from '@shared/catalog';
+import type { CatalogFilters, Category, ProductOrderBy } from '@shared/catalog';
 import { useI18n } from '../../i18n';
 import { UserButton } from './UserButton';
 import classes from './Navbar.module.css';
@@ -81,8 +82,20 @@ export function Navbar({
     { label: '40%+', value: '40' },
     { label: '60%+', value: '60' },
   ];
+  const orderByOptions: Array<{ label: string; value: ProductOrderBy }> = [
+    { label: t('filters.orderDefault'), value: 'default' },
+    { label: t('filters.orderPriceAsc'), value: 'price_asc' },
+    { label: t('filters.orderPriceDesc'), value: 'price_desc' },
+    { label: t('filters.orderDiscountAsc'), value: 'discount_asc' },
+    { label: t('filters.orderDiscountDesc'), value: 'discount_desc' },
+    { label: t('filters.orderEndingSoon'), value: 'ending_soon' },
+    { label: t('filters.orderNewest'), value: 'newest' },
+    { label: t('filters.orderTitleAsc'), value: 'title_asc' },
+    { label: t('filters.orderTitleDesc'), value: 'title_desc' },
+  ];
   const hasActiveFilters =
     showSoldOut ||
+    filters.orderBy !== 'default' ||
     filters.appOnly ||
     filters.amazonFulfilled ||
     filters.featuredOnly ||
@@ -307,8 +320,22 @@ export function Navbar({
           </Group>
 
           <Stack gap="xs" className={classes.filters}>
+            <Select
+              label={t('filters.orderBy')}
+              value={filters.orderBy}
+              onChange={value => {
+                onNavigate('/');
+                onFiltersChange({ orderBy: (value ?? 'default') as ProductOrderBy });
+              }}
+              data={orderByOptions}
+              size="xs"
+              allowDeselect={false}
+              aria-label={t('filters.orderBy')}
+              classNames={{ label: classes.filterLabel }}
+            />
+
             <div>
-              <Text size="xs" c="dimmed" fw={600} mb={5}>
+              <Text size="xs" c="dimmed" fw={600} mb={5} className={classes.filterLabel}>
                 {t('filters.priceRange')}
               </Text>
               <div className={classes.priceGrid}>
@@ -342,7 +369,7 @@ export function Navbar({
             </div>
 
             <div>
-              <Text size="xs" c="dimmed" fw={600} mb={5}>
+              <Text size="xs" c="dimmed" fw={600} mb={5} className={classes.filterLabel}>
                 {t('filters.discount')}
               </Text>
               <SegmentedControl

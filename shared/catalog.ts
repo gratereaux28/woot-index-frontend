@@ -54,11 +54,26 @@ export type Product = {
 /**
  * Filter contract supported by the product listing endpoint.
  */
+export const PRODUCT_ORDER_BY_VALUES = [
+  'default',
+  'price_asc',
+  'price_desc',
+  'discount_asc',
+  'discount_desc',
+  'ending_soon',
+  'newest',
+  'title_asc',
+  'title_desc',
+] as const;
+
+export type ProductOrderBy = (typeof PRODUCT_ORDER_BY_VALUES)[number];
+
 export type ProductListQuery = {
   page?: number;
   limit?: number;
   search?: string;
   category?: string;
+  orderBy?: ProductOrderBy;
   isSoldOut?: boolean;
   isFeatured?: boolean;
   minPrice?: string;
@@ -72,6 +87,7 @@ export type ProductListQuery = {
  * Sidebar filter state applied to product listing requests.
  */
 export type CatalogFilters = {
+  orderBy: ProductOrderBy;
   minPrice: string;
   maxPrice: string;
   discount: string;

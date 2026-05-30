@@ -150,6 +150,11 @@
   gap: var(--mantine-spacing-xs);
 }
 
+.filterLabel {
+  color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-1));
+  font-weight: 600;
+}
+
 .collectionsHeader {
   padding-left: calc(var(--mantine-spacing-md) + 2px);
   padding-right: var(--mantine-spacing-md);

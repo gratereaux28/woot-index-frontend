@@ -132,9 +132,9 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
             <Stack gap={4}>
               <Badge variant="outline">{productCategoryLabel(detail, t('product.categoryFallback'))}</Badge>
               <Title order={3}>{currentProduct.fullTitle ?? currentProduct.title}</Title>
-              <Text c="dimmed" size="sm">
+              {/* <Text c="dimmed" size="sm">
                 {currentProduct.condition ?? t('modal.conditionFallback')}
-              </Text>
+              </Text> */}
             </Stack>
 
             <Stack gap={3} align="flex-end">

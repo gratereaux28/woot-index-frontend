@@ -113,6 +113,7 @@ The frontend currently sends these query parameters to `/woot/products` through 
 | `limit` | Page size. The UI uses `24`. |
 | `search` | Search text typed by the user. |
 | `category` | Category or subcategory slug. |
+| `orderBy` | Sort order. Supported values: `default`, `price_asc`, `price_desc`, `discount_asc`, `discount_desc`, `ending_soon`, `newest`, `title_asc`, `title_desc`. |
 | `isSoldOut` | `false` hides sold-out products. Omitted when sold-out products should be included. |
 | `isFeatured` | Filters featured products when enabled. |
 | `minPrice` | Minimum sale price. |

@@ -4,7 +4,14 @@ import { useDebouncedValue } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router';
 
-import type { CatalogFilters, Category, PaginatedProducts, ProductListQuery } from '@shared/catalog';
+import {
+  PRODUCT_ORDER_BY_VALUES,
+  type CatalogFilters,
+  type Category,
+  type PaginatedProducts,
+  type ProductListQuery,
+  type ProductOrderBy,
+} from '@shared/catalog';
 
 const initialProducts: PaginatedProducts = {
   meta: {
@@ -19,6 +26,7 @@ const initialProducts: PaginatedProducts = {
 };
 
 const initialFilters: CatalogFilters = {
+  orderBy: 'default',
   minPrice: '',
   maxPrice: '',
   discount: '',
@@ -31,6 +39,7 @@ const searchParamKeys = {
   search: 'search',
   category: 'category',
   showSoldOut: 'showSoldOut',
+  orderBy: 'orderBy',
   minPrice: 'minPrice',
   maxPrice: 'maxPrice',
   discount: 'discount',
@@ -69,6 +78,12 @@ function setBooleanParam(params: URLSearchParams, key: string, value: boolean) {
   params.delete(key);
 }
 
+function readOrderByParam(params: URLSearchParams) {
+  const value = params.get(searchParamKeys.orderBy);
+
+  return PRODUCT_ORDER_BY_VALUES.includes(value as ProductOrderBy) ? (value as ProductOrderBy) : initialFilters.orderBy;
+}
+
 /**
  * Encapsulates catalog URL state, filters, initial loading, pagination and remote errors.
  */
@@ -85,6 +100,7 @@ export function useCatalog() {
   const search = searchParams.get(searchParamKeys.search) ?? '';
   const activeCategory = searchParams.get(searchParamKeys.category) || null;
   const showSoldOut = readBooleanParam(searchParams, searchParamKeys.showSoldOut);
+  const orderBy = readOrderByParam(searchParams);
   const minPrice = searchParams.get(searchParamKeys.minPrice) ?? initialFilters.minPrice;
   const maxPrice = searchParams.get(searchParamKeys.maxPrice) ?? initialFilters.maxPrice;
   const discount = searchParams.get(searchParamKeys.discount) ?? initialFilters.discount;
@@ -93,6 +109,7 @@ export function useCatalog() {
   const featuredOnly = readBooleanParam(searchParams, searchParamKeys.featuredOnly);
   const filters = useMemo<CatalogFilters>(
     () => ({
+      orderBy,
       minPrice,
       maxPrice,
       discount,
@@ -100,7 +117,7 @@ export function useCatalog() {
       amazonFulfilled,
       featuredOnly,
     }),
-    [amazonFulfilled, appOnly, discount, featuredOnly, maxPrice, minPrice],
+    [amazonFulfilled, appOnly, discount, featuredOnly, maxPrice, minPrice, orderBy],
   );
   const [debouncedSearch] = useDebouncedValue(search, 300);
 
@@ -131,6 +148,7 @@ export function useCatalog() {
       limit: 24,
       search: debouncedSearch.trim() || undefined,
       category: activeCategory ?? undefined,
+      orderBy: filters.orderBy === 'default' ? undefined : filters.orderBy,
       isSoldOut: showSoldOut ? undefined : false,
       isFeatured: filters.featuredOnly ? true : undefined,
       minPrice: filters.minPrice || undefined,
@@ -147,6 +165,14 @@ export function useCatalog() {
       updateCatalogParams(nextParams => {
         if (nextFilters.minPrice !== undefined) {
           setOptionalParam(nextParams, searchParamKeys.minPrice, nextFilters.minPrice);
+        }
+
+        if (nextFilters.orderBy !== undefined) {
+          setOptionalParam(
+            nextParams,
+            searchParamKeys.orderBy,
+            nextFilters.orderBy === initialFilters.orderBy ? '' : nextFilters.orderBy,
+          );
         }
 
         if (nextFilters.maxPrice !== undefined) {
@@ -176,6 +202,7 @@ export function useCatalog() {
   const resetCatalogFilters = useCallback(() => {
     updateCatalogParams(nextParams => {
       nextParams.delete(searchParamKeys.showSoldOut);
+      nextParams.delete(searchParamKeys.orderBy);
       nextParams.delete(searchParamKeys.minPrice);
       nextParams.delete(searchParamKeys.maxPrice);
       nextParams.delete(searchParamKeys.discount);
